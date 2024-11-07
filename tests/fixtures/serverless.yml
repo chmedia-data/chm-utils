@@ -1,0 +1,10 @@
+custom:
+  test: config_value
+
+functions:
+  test_function:
+    environment:
+      TEST_REMOTE_VAR: ${ssm:/chm-utils/test/${opt:stage}}
+      TEST_OPT_VAR: ${opt:stage}
+      TEST_CONFIG_VAR: ${self:custom.${opt:stage}}
+      TEST_HARDCODED_VAR: hardcoded
