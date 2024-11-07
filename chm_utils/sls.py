@@ -13,12 +13,20 @@ def get_dict_from_path(obj,path):
 
 def get_config():
 
-    paths_to_check = ['../serverless.yml','serverless.yml',os.environ.get('SLS_CONFIG_PATH')]
-    path = [i for i in paths_to_check if i and os.path.exists(i)]
-    if len(path) == 0:
+    cwd = os.getcwd()
+    parent = os.path.abspath(os.path.join(cwd,os.pardir))
+    src = os.path.join(cwd,'src')
+    
+    dirs_to_check = [cwd,src,parent]
+    paths_to_check = [os.path.join(i,'serverless.yml') for i in dirs_to_check if i]
+    if os.environ.get('SLS_CONFIG_PATH'):
+        paths_to_check.append(os.path.join(os.environ.get('SLS_CONFIG_PATH')))
+
+    paths_found = [i for i in paths_to_check if os.path.exists(i)]
+    if len(paths_found) == 0:
         raise Exception('Serverless YML config could not be found!')
 
-    with open(path[0],'r') as f:
+    with open(paths_found[0],'r') as f:
         config = yaml.safe_load(f.read())
     
     return config
@@ -105,7 +113,7 @@ def get_env(env_path=None,config=None):
     return env
 
 
-def set_env(sls_env_path=None):
-    env = get_env(sls_env_path)
+def set_env(env_path=None):
+    env = get_env(env_path)
     for k,v in env.items():
         os.environ[k]=v
