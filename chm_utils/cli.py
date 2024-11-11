@@ -16,7 +16,8 @@ def main():
     args = parser.parse_args()
     if args.command and args.command.lower()  == 'sls.get_env':
         sls_env_path = args.sls_env_path or os.environ.get('SLS_ENV_PATH')
-        print(sls.get_env(sls_env_path))
+        env = sls.get_env(sls_env_path)
+        print(' '.join([f'{k}={v}' for k,v in env.items()]))
 
 
 if __name__ == "__main__":

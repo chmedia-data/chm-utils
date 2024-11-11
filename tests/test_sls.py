@@ -28,8 +28,8 @@ def test_set_env():
         if not os.environ[i['key']] == i['value']:
             failed_keys.append(i['key'])
         
-    if len(failed_keys) > 0:
-        pytest.fail("")
+    assert len(failed_keys) == 0
+        
 
 
     
