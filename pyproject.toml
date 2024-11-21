@@ -1,6 +1,6 @@
 [project]
 name = "chm_utils"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
   "boto3",
   "PyYAML"
@@ -9,7 +9,7 @@ requires-python = ">=3.8"
 authors = [
   {name = "Adrian Oesch", email = "helloadrianoesch@chmedia.ch"},
 ]
-description = "A custom python package with common utilities!"
+description = "A custom python package with common utilities within CH Media Data"
 readme = "readme.md"
 
 [project.optional-dependencies]
@@ -20,6 +20,13 @@ snowflake = [
 ]
 redis = [
   "redis"
+]
+auth = [
+  "dash>=2.7.0"
+]
+test = [
+  "pytest",
+  "dash>=2.7.0"
 ]
 
 [project.scripts]
