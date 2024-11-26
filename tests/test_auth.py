@@ -4,7 +4,7 @@ from itsdangerous import base64_decode
 from base64 import b64encode
 from dash import Dash, html
 
-from chm_utils.auth import auth
+from chm_utils.ext import auth
 
 AUTH_REDIRECT_URI = "https://test_uri.com/auth/login"
 SESSION_COOKIE_NAME = 'test_cookie'

@@ -31,7 +31,7 @@ For basic authentication to work, one has to set `AUTH_BASIC_USER` and `AUTH_BAS
 
 ```python
 from flask import Flask
-from chm_utils.auth import auth
+from chm_utils.ext import auth
 
 flask = Flask(__name__)
 
@@ -46,7 +46,7 @@ def send_response():
 To be able to use cookie based authentication with centralised auth routes, one has to use the same `SESSION_COOKIE_NAME` and `SESSION_SECRET_KEY` across services (see [chm-auth](https://github.com/chmedia-data/chm-auth)). When those environment variables are set, flask can authenticate a user by it's cookie and redirect towards `AUTH_REDIRECT_URI` when a user isn't yet logged in.
 ```python
 from flask import Flask
-from chm_utils.auth import auth
+from chm_utils.ext import auth
 
 flask = Flask(__name__)
 
@@ -59,7 +59,7 @@ def send_response():
 With dash one can register an instance like this:
 ```python
 from dash import Dash
-from chm_utils.auth import auth
+from chm_utils.ext import auth
 
 dash = Dash(__name__)
 dash = auth.register_dash(dash)
