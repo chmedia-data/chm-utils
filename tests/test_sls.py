@@ -19,6 +19,9 @@ def test_set_env():
         'key': 'TEST_CONFIG_VAR',
         'value': 'config_value'
     },{
+        'key': 'TEST_CONFIG_VAR_WITH_SUFFIX',
+        'value': 'config_value/with_suffix'
+    },{
         'key': 'TEST_HARDCODED_VAR',
         'value': 'hardcoded'
     }]
