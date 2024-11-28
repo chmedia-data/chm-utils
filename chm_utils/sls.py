@@ -43,7 +43,7 @@ def get_params(config,env_path):
     params = []
     for k,v in env.items():
 
-        if k == 'STAGE':
+        if k == 'STAGE' or k in os.environ:
             continue
 
         if not isinstance(v,str):

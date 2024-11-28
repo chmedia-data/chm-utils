@@ -7,6 +7,7 @@ def test_set_env():
     os.environ['SLS_CONFIG_PATH'] = 'tests/fixtures/serverless.yml'
     os.environ['SLS_ENV_PATH'] = 'functions.test_function.environment'
     os.environ['STAGE'] = 'test'
+    os.environ['TEST_NOT_OVERWRITE'] = 'not_overwritten'
     sls.set_env()
 
     expectations = [{
@@ -24,6 +25,9 @@ def test_set_env():
     },{
         'key': 'TEST_HARDCODED_VAR',
         'value': 'hardcoded'
+    },{
+        'key': 'TEST_NOT_OVERWRITE',
+        'value': 'not_overwritten'
     }]
 
     failed_keys = []
