@@ -43,7 +43,7 @@ def get_params(config,env_path):
     params = []
     for k,v in env.items():
 
-        if k == 'STAGE':
+        if k == 'STAGE' or k in os.environ:
             continue
 
         if not isinstance(v,str):
@@ -56,7 +56,9 @@ def get_params(config,env_path):
         if param_match:
             params.append({'ssm_path':param_match.group(1), 'key':k})
         elif self_match:
-            params.append({'key':k,'value':get_dict_from_path(config,self_match.group(1))})
+            self_reference = self_match.group(1)
+            new_value = re.sub(r'\$\{self\:(.+?)\}',get_dict_from_path(config,self_reference),v)
+            params.append({'key':k,'value': new_value})
         else:
             params.append({'key':k,'value':v})
     

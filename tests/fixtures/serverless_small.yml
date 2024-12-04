@@ -1,0 +1,6 @@
+functions:
+  test_function:
+    environment:
+      TEST_OPT_VAR: ${opt:stage}
+      TEST_HARDCODED: hardcoded
+      TEST_NOT_OVERWRITE: overwritten

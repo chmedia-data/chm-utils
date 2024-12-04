@@ -7,4 +7,6 @@ functions:
       TEST_REMOTE_VAR: ${ssm:/chm-utils/test/${opt:stage}}
       TEST_OPT_VAR: ${opt:stage}
       TEST_CONFIG_VAR: ${self:custom.${opt:stage}}
+      TEST_CONFIG_VAR_WITH_SUFFIX: ${self:custom.${opt:stage}}/with_suffix
       TEST_HARDCODED_VAR: hardcoded
+      TEST_NOT_OVERWRITE: overwritten
