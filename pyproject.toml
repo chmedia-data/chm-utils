@@ -14,8 +14,7 @@ readme = "readme.md"
 
 [project.optional-dependencies]
 snowflake = [
-  "snowflake-connector-python>=3.12.0",
-  "numpy<2",
+  "snowflake-connector-python[pandas]>=3.12.0",
   "pandas>=2.0.1"
 ]
 redis = [
@@ -27,7 +26,7 @@ auth = [
 test = [
   "pytest",
   "dash>=2.7.0",
-  "snowflake-connector-python>=3.12.0",
+  "snowflake-connector-python[pandas]>=3.12.0",
 ]
 
 [project.scripts]

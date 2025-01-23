@@ -26,6 +26,12 @@ def snowflake():
 
 
 def test_query_df(snowflake):
+
+    try:
+        snowflake.execute("drop table chmedia.public.chm_utils_test")
+    finally:
+        pass
+    
     snowflake.execute("create table chmedia.public.chm_utils_test (id string, ts timestamp_ntz, val int)")
     snowflake.execute("insert into chmedia.public.chm_utils_test (id, ts, val) values ('a',current_timestamp(),1),('b',current_timestamp(),2)")
     df = snowflake.get_query_df("select * from chmedia.public.chm_utils_test")
