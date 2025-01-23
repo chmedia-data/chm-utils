@@ -23,10 +23,22 @@ from chm_utils import sls
 sls.set_env(env_path='functions.myfunction.environment')
 ```
 
-## Authentication
-We use either [basic](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) or [cookie](https://flask.palletsprojects.com/en/stable/quickstart/#sessions) based authentication methods for various web interfaces. 
+## Extensions
+To split python dependencies into different groups, one can install various extensions separately: `pip install "chm_utils[auth] git+https://github.com/chmedia-data/chm-utils"`
 
-### Basic
+### Snowflake
+A small snowflake wrapper using common environment variables as connection settings and frequently used SQL to pandas DataFrame helper function `get_query_df`:
+
+```python
+from chm_utils.ext import Snowflake
+snowflake = Snowflake()
+df = snowflake.get_query_df("select * from some_table limit 10")
+```
+
+### Auth
+With the `auth` extension, one can use either [basic](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) or [cookie](https://flask.palletsprojects.com/en/stable/quickstart/#sessions) based authentication methods for various web interfaces.
+
+#### Basic
 For basic authentication to work, one has to set `AUTH_BASIC_USER` and `AUTH_BASIC_PWD`. Then one can use our custom decorator to protect routes
 
 ```python
@@ -41,8 +53,7 @@ def send_response():
     return 'Ok!'
 ```
 
-
-### Cookie
+#### Cookie
 To be able to use cookie based authentication with centralised auth routes, one has to use the same `SESSION_COOKIE_NAME` and `SESSION_SECRET_KEY` across services (see [chm-auth](https://github.com/chmedia-data/chm-auth)). When those environment variables are set, flask can authenticate a user by it's cookie and redirect towards `AUTH_REDIRECT_URI` when a user isn't yet logged in.
 ```python
 from flask import Flask
