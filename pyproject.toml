@@ -31,3 +31,8 @@ test = [
 
 [project.scripts]
 chm_utils = "chm_utils.cli:main"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:datetime.datetime.utcnow:DeprecationWarning:botocore"
+]
