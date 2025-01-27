@@ -29,7 +29,7 @@ def test_query_df(snowflake):
 
     try:
         snowflake.execute("drop table chmedia.public.chm_utils_test")
-    finally:
+    except:
         pass
     
     snowflake.execute("create table chmedia.public.chm_utils_test (id string, ts timestamp_ntz, val int)")
