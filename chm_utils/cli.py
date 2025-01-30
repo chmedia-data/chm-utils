@@ -23,7 +23,7 @@ def main():
         print(' '.join([f'{k}={v}' for k,v in env.items()]))
 
     elif args.command == 'version':
-        print(get_version())
+        print("`chm_utils` version: "+get_version())
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
-import os, pytest
+import os, pytest, builtins
 import pandas as pd
-from chm_utils.ext import snowflake as sf
+
 from chm_utils.sls import resolve_ssm_params
 
 os.environ['SNOWFLAKE_USER'] = 'recs'
@@ -22,7 +22,8 @@ for k,v in env.items():
 
 @pytest.fixture()
 def snowflake():
-    yield sf.Snowflake()
+    from chm_utils.clients import Snowflake
+    yield Snowflake()
 
 
 def test_query_df(snowflake):
@@ -38,3 +39,5 @@ def test_query_df(snowflake):
     assert len(df) == 2
     assert isinstance(df, pd.DataFrame)
     snowflake.execute("drop table chmedia.public.chm_utils_test")
+
+

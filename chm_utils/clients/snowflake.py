@@ -1,12 +1,20 @@
-import os
-from decimal import Decimal
-import snowflake.connector
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
+has_required_packages = True
+try:
+    import os
+    from decimal import Decimal
+    import snowflake.connector
+    from cryptography.hazmat.primitives.serialization import load_pem_private_key
+except ImportError:
+    has_required_packages = False
 
 
 class Snowflake:
 
     def __init__(self):
+
+        if not has_required_packages:
+            raise ImportError("required packages are not installed: `pip install chm_utils[snowflake]`")
+
         self.db = None
 
     def _connect(self):
@@ -35,7 +43,7 @@ class Snowflake:
                 )
                 
             else:
-                raise "no authorization variables found in environment"
+                raise Exception("no authorization variables found in environment")
 
     def _get_cursor(self):
         self._connect()
