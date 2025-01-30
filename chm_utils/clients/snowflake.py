@@ -21,9 +21,12 @@ class Snowflake:
 
         self.db = None
 
-    def _connect(self):
+    def _db(self):
 
-        if self.db is None:
+        if self.db:
+            return self.db
+
+        else:
             if os.environ.get('SNOWFLAKE_PWD'):
                 self.db = snowflake.connector.connect(
                     account = os.environ.get("SNOWFLAKE_ACCOUNT"),
@@ -49,13 +52,12 @@ class Snowflake:
             else:
                 raise Exception("no authorization variables found in environment")
 
-    def _get_cursor(self):
-        self._connect()
-        return self.db.cursor()
+    def _cursor(self):
+        return self._db().cursor()
 
     def get_query_df(self,query,use_warehouse=None):
 
-        cursor = self._get_cursor()
+        cursor = self._cursor()
 
         if use_warehouse:
             cursor.execute(f"use warehouse {use_warehouse}")
@@ -77,7 +79,7 @@ class Snowflake:
         return df
     
     def execute(self,query):
-        cursor = self._get_cursor()
+        cursor = self._cursor()
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
