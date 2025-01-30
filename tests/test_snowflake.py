@@ -41,3 +41,22 @@ def test_query_df(snowflake):
     snowflake.execute("drop table chmedia.public.chm_utils_test")
 
 
+# def test_missing_creds():
+#     private_key = os.environ['SNOWFLAKE_PRIVATE_KEY']
+#     del os.environ['SNOWFLAKE_PRIVATE_KEY']
+
+#     assert os.environ.get('SNOWFLAKE_PRIVATE_KEY') is None
+    
+#     error = None
+#     try:
+#         from chm_utils.clients import Snowflake
+#         snowflake = Snowflake()
+#         pytest.fail('no exception thrown')
+#     except EnvironmentError as e:
+#         error = e
+    
+#     assert isinstance(error,EnvironmentError)
+#     assert 'credentials' in str(error)
+    
+#     os.environ['SNOWFLAKE_PRIVATE_KEY'] = private_key
+    

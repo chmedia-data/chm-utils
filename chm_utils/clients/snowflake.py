@@ -15,9 +15,9 @@ class Snowflake:
         if not has_required_packages:
             raise ImportError("required packages are not installed: `pip install chm_utils[snowflake]`")
         
-        has_credentials = os.environ.get("SNOWFLAKE_USER") or os.environ.get('SNOWFLAKE_PRIVATE_KEY')
-        if not has_credentials is None:
-            raise Exception("no snowflake credentials found in environment")
+        credentials = os.environ.get("SNOWFLAKE_PWD") or os.environ.get('SNOWFLAKE_PRIVATE_KEY')
+        if credentials is None or len(credentials)==0:
+            raise EnvironmentError("no snowflake credentials found in environment")
 
         self.db = None
 

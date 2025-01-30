@@ -5,6 +5,8 @@ A custom python package with common utilities.
 pip install git+https://github.com/chmedia-data/chm-utils
 ```
 
+To split python dependencies into different groups, one can install dependency groups separately: `pip install "chm_utils[auth,snowflake] git+https://github.com/chmedia-data/chm-utils"`
+
 ## Testing
 One can execute `pytest` in a local environment or use `just test` for dockerized tests.
 
@@ -23,17 +25,28 @@ from chm_utils import sls
 sls.set_env(env_path='functions.myfunction.environment')
 ```
 
-## Extensions
-To split python dependencies into different groups, one can install various extensions separately: `pip install "chm_utils[auth] git+https://github.com/chmedia-data/chm-utils"`
-
+## Clients
 ### Snowflake
 A small snowflake wrapper using common environment variables as connection settings and frequently used SQL to pandas DataFrame helper function `get_query_df`:
 
 ```python
-from chm_utils.ext import Snowflake
+from chm_utils.clients import Snowflake
 snowflake = Snowflake()
 df = snowflake.get_query_df("select * from some_table limit 10")
 ```
+
+To make sure optional dependencies are installed use: `pip install "chm_utils[snowfalke] git+https://github.com/chmedia-data/chm-utils"`
+
+Following environment vars will be considered:
+- SNOWFLAKE_ACCOUNT
+- SNOWFLAKE_USER
+- SNOWFLAKE_PRIVATE_KEY
+- SNOWFLAKE_PRIVATE_KEY_PWD
+- SNOWFLAKE_ROLE
+- SNOWFLAKE_WAREHOUSE
+
+
+## Extensions
 
 ### Auth
 With the `auth` extension, one can use either [basic](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) or [cookie](https://flask.palletsprojects.com/en/stable/quickstart/#sessions) based authentication methods for various web interfaces.
