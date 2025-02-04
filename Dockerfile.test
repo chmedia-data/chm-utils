@@ -1,0 +1,11 @@
+FROM python:3
+WORKDIR /home
+
+COPY chm_utils chm_utils
+COPY pyproject.toml .
+COPY readme.md .
+RUN pip install -e .[test]
+
+COPY tests tests
+
+ENTRYPOINT pytest

@@ -13,4 +13,4 @@ def test_import_error():
             error = e
         
         assert isinstance(error,ImportError)
-        assert 'not installed' in str(error)
+        assert 'not available' in str(error)

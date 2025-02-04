@@ -32,7 +32,7 @@ def getLogger(name):
     streamHandler.setFormatter(streamFormatter)
 
     logger = logging.getLogger(name)
-    logger.propagate = False
+    # logger.propagate = False
     logger.addHandler(streamHandler)
     logger.addHandler(SlackHandler)
     

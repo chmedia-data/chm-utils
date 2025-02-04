@@ -1,22 +1,23 @@
-has_required_packages = True
+ARE_DEPS_AVAILABLE = True
 try:
     import os
     from decimal import Decimal
     import snowflake.connector
     from cryptography.hazmat.primitives.serialization import load_pem_private_key
 except ImportError:
-    has_required_packages = False
+    ARE_DEPS_AVAILABLE = False
 
 
 class Snowflake:
 
     def __init__(self):
 
-        if not has_required_packages:
-            raise ImportError("required packages are not installed: `pip install chm_utils[snowflake]`")
+        if not ARE_DEPS_AVAILABLE:
+            raise ImportError("required packages are not available: `pip install chm_utils[snowflake]`")
         
         credentials = os.environ.get("SNOWFLAKE_PWD") or os.environ.get('SNOWFLAKE_PRIVATE_KEY')
-        if credentials is None or len(credentials)==0:
+        are_creds_missing = credentials is None or len(credentials)==0
+        if are_creds_missing:
             raise EnvironmentError("no snowflake credentials found in environment")
 
         self.db = None
