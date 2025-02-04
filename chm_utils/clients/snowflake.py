@@ -33,7 +33,8 @@ class Snowflake:
                     user = os.environ.get("SNOWFLAKE_USER"),
                     pwd = os.environ.get("SNOWFLAKE_PWD"),
                     role = os.environ.get("SNOWFLAKE_ROLE"),
-                    warehouse = os.environ.get("SNOWFLAKE_WAREHOUSE")
+                    warehouse = os.environ.get("SNOWFLAKE_WAREHOUSE"),
+                    authenticator = os.environ.get("SNOWFLAKE_AUTHENTICATOR")
                 )
 
             elif os.environ.get('SNOWFLAKE_PRIVATE_KEY'):
