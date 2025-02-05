@@ -61,7 +61,7 @@ class Snowflake:
             else:
                 raise Exception("no authorization variables found in environment")
         
-        return self._db
+        return self.db
 
     def _cursor(self):
         return self._db().cursor()
