@@ -71,7 +71,10 @@ def test_client_methods(snowflake_env_pk):
     snowflake.execute("drop table chmedia.public.chm_utils_test")
 
 
-def test_pw_credential(snowflake_env_pw):
+def test_pw_mfa_credential(snowflake_env_pw):
+
+    if os.environ.get('SKIP_PW_MFA_CREDENTIAL_TEST','').lower()=='true':
+        return
 
     assert 'SNOWFLAKE_PWD' in get_snowflake_env()
     from chm_utils.clients import Snowflake

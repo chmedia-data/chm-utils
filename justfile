@@ -9,6 +9,7 @@ test PATH="":
         --env AWS_DEFAULT_REGION=eu-west-1 \
         --env AWS_PROFILE=chm-admin \
         --env STAGE=test \
+        --env SKIP_PW_MFA_CREDENTIAL_TEST=true \
         --entrypoint /bin/bash \
         chm_utils -c "pip install -e . && pytest {{PATH}}"
 
