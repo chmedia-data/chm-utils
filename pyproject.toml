@@ -32,7 +32,7 @@ test = [
 chm_utils = "chm_utils.cli:main"
 
 [tool.setuptools]
-py-modules = [ "chm_utils" ]
+packages = ["chm_utils", "chm_utils.clients", "chm_utils.ext"]
 
 [tool.pytest.ini_options]
 filterwarnings = [
