@@ -1,12 +1,15 @@
-import os, pytest, builtins, logging
+import os, pytest
 import pandas as pd
 
 from chm_utils.sls import resolve_ssm_params
 
-os.environ['SNOWFLAKE_USER'] = 'recs'
-os.environ['SNOWFLAKE_WAREHOUSE'] = 'compute_wh'
-os.environ['SNOWFLAKE_ROLE'] = 'chm_developer'
-
+snowflake_params = {
+    'SNOWFLAKE_WAREHOUSE': 'compute_wh',
+    'SNOWFLAKE_ROLE': 'chm_developer',
+    'SNOWFLAKE_PWD': os.environ['SNOWFLAKE_PWD'],
+    'SNOWFLAKE_USER': os.environ['SNOWFLAKE_USER'],
+    'SNOWFLAKE_AUTHENTICATOR': 'username_password_mfa'
+}
 ssm_params = [{
     'ssm_path': '/snowflake/chmd_account_id',
     'key': 'SNOWFLAKE_ACCOUNT'
@@ -14,14 +17,45 @@ ssm_params = [{
     'ssm_path': '/snowflake/recs_private_key',
     'key': 'SNOWFLAKE_PRIVATE_KEY'
 }]
-
-env = resolve_ssm_params(ssm_params)
-for k,v in env.items():
-    os.environ[k]=v
+snowflake_params.update(resolve_ssm_params(ssm_params))
 
 
-def test_query_df():
+def clean_snowflake_env():
+    for k in os.environ.keys():
+        if k.startswith('SNOWFLAKE_'):
+            del os.environ[k]
 
+def set_snowflake_env(filter=""):
+    for k,v in snowflake_params.items():
+        if k != filter:
+            os.environ[k]=v
+
+def get_snowflake_env():
+    return {k:v for k,v in os.environ.items() if k.startswith('SNOWFLAKE_')}
+
+
+@pytest.fixture
+def snowflake_env_pk():
+    clean_snowflake_env()
+    set_snowflake_env(filter='SNOWFLAKE_PWD')
+    os.environ['SNOWFLAKE_USER'] = 'recs'
+
+
+@pytest.fixture
+def snowflake_env_pw():
+    clean_snowflake_env()
+    set_snowflake_env(filter='SNOWFLAKE_PRIVATE_KEY')
+
+
+@pytest.fixture
+def snowflake_env_missing():
+    clean_snowflake_env()
+
+
+def test_client_methods(snowflake_env_pk):
+
+    assert 'SNOWFLAKE_PRIVATE_KEY' in get_snowflake_env()
+    
     try:
         from chm_utils.clients import Snowflake
         snowflake = Snowflake()
@@ -37,12 +71,18 @@ def test_query_df():
     snowflake.execute("drop table chmedia.public.chm_utils_test")
 
 
-def test_missing_creds(caplog):
-    caplog.set_level(logging.DEBUG)
-    private_key = os.environ['SNOWFLAKE_PRIVATE_KEY']
-    del os.environ['SNOWFLAKE_PRIVATE_KEY']
+def test_pw_credential(snowflake_env_pw):
+
+    assert 'SNOWFLAKE_PWD' in get_snowflake_env()
+    from chm_utils.clients import Snowflake
+    snowflake = Snowflake()
+    snowflake.execute('select current_date')
+
+
+def test_missing_credential(snowflake_env_missing):
 
     assert os.environ.get('SNOWFLAKE_PRIVATE_KEY') is None
+    assert os.environ.get('SNOWFLAKE_PWD') is None
     
     error = None
     try:
@@ -54,6 +94,4 @@ def test_missing_creds(caplog):
     
     assert isinstance(error,EnvironmentError)
     assert 'credentials' in str(error)
-    
-    os.environ['SNOWFLAKE_PRIVATE_KEY'] = private_key
     

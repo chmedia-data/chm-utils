@@ -1,11 +1,10 @@
 FROM python:3
 WORKDIR /home
 
-COPY chm_utils chm_utils
+COPY test-requirements.txt .
+RUN pip install --no-cache-dir -r test-requirements.txt
+
 COPY pyproject.toml .
 COPY readme.md .
-RUN pip install -e .[test]
-
+COPY chm_utils chm_utils
 COPY tests tests
-
-ENTRYPOINT pytest

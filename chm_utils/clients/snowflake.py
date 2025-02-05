@@ -7,20 +7,25 @@ try:
 except ImportError:
     ARE_DEPS_AVAILABLE = False
 
+from chm_utils import __logger__
+
 
 class Snowflake:
 
     def __init__(self):
 
+        self.db = None
+
         if not ARE_DEPS_AVAILABLE:
             raise ImportError("required packages are not available: `pip install chm_utils[snowflake]`")
         
-        credentials = os.environ.get("SNOWFLAKE_PWD") or os.environ.get('SNOWFLAKE_PRIVATE_KEY')
-        are_creds_missing = credentials is None or len(credentials)==0
-        if are_creds_missing:
+        has_pw = not os.environ.get("SNOWFLAKE_PWD") is None
+        has_pk = not os.environ.get("SNOWFLAKE_PRIVATE_KEY") is None
+        if not has_pk and not has_pw:
             raise EnvironmentError("no snowflake credentials found in environment")
+        
+        __logger__.debug(f'init (has_pw: {has_pw}, pk: {has_pk})')
 
-        self.db = None
 
     def _db(self):
 
@@ -29,16 +34,18 @@ class Snowflake:
 
         else:
             if os.environ.get('SNOWFLAKE_PWD'):
+                __logger__.debug(f'connect with pw')
                 self.db = snowflake.connector.connect(
                     account = os.environ.get("SNOWFLAKE_ACCOUNT"),
                     user = os.environ.get("SNOWFLAKE_USER"),
-                    pwd = os.environ.get("SNOWFLAKE_PWD"),
+                    password = os.environ.get("SNOWFLAKE_PWD"),
                     role = os.environ.get("SNOWFLAKE_ROLE"),
                     warehouse = os.environ.get("SNOWFLAKE_WAREHOUSE"),
                     authenticator = os.environ.get("SNOWFLAKE_AUTHENTICATOR")
                 )
 
             elif os.environ.get('SNOWFLAKE_PRIVATE_KEY'):
+                __logger__.debug(f'snowflake connect with pk')
                 private_key_pwd = os.environ.get('SNOWFLAKE_PRIVATE_KEY_PWD')
                 self.db = snowflake.connector.connect(
                     account = os.environ.get("SNOWFLAKE_ACCOUNT"),
@@ -53,6 +60,8 @@ class Snowflake:
                 
             else:
                 raise Exception("no authorization variables found in environment")
+        
+        return self._db
 
     def _cursor(self):
         return self._db().cursor()

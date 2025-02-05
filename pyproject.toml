@@ -31,7 +31,12 @@ test = [
 [project.scripts]
 chm_utils = "chm_utils.cli:main"
 
+[tool.setuptools]
+py-modules = [ "chm_utils" ]
+
 [tool.pytest.ini_options]
 filterwarnings = [
     "ignore:datetime.datetime.utcnow:DeprecationWarning:botocore"
 ]
+log_cli = 1
+log_cli_level="INFO"
