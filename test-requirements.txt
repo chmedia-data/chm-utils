@@ -1,0 +1,5 @@
+pytest
+boto3
+PyYAML
+dash>=2.7.0
+snowflake-connector-python[pandas]>=3.12.0
