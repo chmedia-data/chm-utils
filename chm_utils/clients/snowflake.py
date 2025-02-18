@@ -57,9 +57,6 @@ class Snowflake:
                     role = os.environ.get("SNOWFLAKE_ROLE"),
                     warehouse = os.environ.get("SNOWFLAKE_WAREHOUSE")
                 )
-                
-            else:
-                raise Exception("no authorization variables found in environment")
         
         return self.db
 
