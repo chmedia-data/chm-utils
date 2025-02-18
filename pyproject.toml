@@ -22,11 +22,6 @@ redis = [
 auth = [
   "dash>=2.7.0"
 ]
-test = [
-  "pytest",
-  "dash>=2.7.0",
-  "snowflake-connector-python[pandas]>=3.12.0",
-]
 
 [project.scripts]
 chm_utils = "chm_utils.cli:main"
