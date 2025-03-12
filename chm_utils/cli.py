@@ -1,9 +1,6 @@
 import argparse, os
 from . import sls
-
-def get_version():
-    import importlib.metadata
-    return importlib.metadata.version("chm_utils")
+from . import __version__
 
 def main():
 
@@ -23,7 +20,7 @@ def main():
         print(' '.join([f'{k}={v}' for k,v in env.items()]))
 
     elif args.command == 'version':
-        print(get_version())
+        print("`chm_utils` version: "+__version__)
 
 
 if __name__ == "__main__":

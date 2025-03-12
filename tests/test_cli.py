@@ -13,3 +13,11 @@ def test_get_env(capsys):
         cli.main()
 
     assert capsys.readouterr().out.strip() == "TEST_OPT_VAR=test TEST_HARDCODED=hardcoded"
+
+
+def test_version(capsys):
+
+    with patch('sys.argv', ['cli.py', 'version']):
+        cli.main()
+    
+    assert "version" in capsys.readouterr().out.strip()

@@ -1,0 +1,10 @@
+FROM python:3
+WORKDIR /home
+
+COPY test-requirements.txt .
+RUN pip install --no-cache-dir -r test-requirements.txt
+
+COPY pyproject.toml .
+COPY readme.md .
+COPY chm_utils chm_utils
+COPY tests tests

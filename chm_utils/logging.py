@@ -4,7 +4,7 @@ class SlackHandler(logging.StreamHandler):
 
     def __init__(self):
         logging.StreamHandler.__init__(self)
-        self.setLevel("WARNING")
+        self.setLevel(logging.WARNING)
         self.stage = os.environ.get('STAGE','local').upper()
         self.setFormatter(logging.Formatter(f'%(asctime)s [%(levelname)s] {self.stage} - %(filename)s:%(funcName)s - %(message)s'))
 
