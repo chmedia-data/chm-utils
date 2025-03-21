@@ -18,7 +18,8 @@ def main():
     if args.command and args.command.lower()  == 'sls.get_env':
         sls_env_path = args.sls_env_path or os.environ.get('SLS_ENV_PATH')
         env = sls.get_env(sls_env_path)
-        print(' '.join([f'{k}={shlex.quote(v)}' for k, v in env.items()]))
+        for k, v in env.items():
+            print(f"export {k}={shlex.quote(v)}")
 
     elif args.command == 'version':
         print("`chm_utils` version: "+__version__)
