@@ -4,3 +4,4 @@ functions:
       TEST_OPT_VAR: ${opt:stage}
       TEST_HARDCODED: hardcoded
       TEST_NOT_OVERWRITE: overwritten
+      TEST_SPECIAL_CHARS: "---- rsa begin ----\nasdfasdfasdf\n---- rsa end ----\n"
