@@ -13,6 +13,7 @@ TEST_USER = 'test_user'
 TEST_PWD = 'test_pwd'
 TEST_DASH_PATH = '/test/'
 TEST_FLASK_PATH = '/test'
+TEST_DASH_BASIC_PATH = '/test/admin'
 
 os.environ['AUTH_REDIRECT_URI'] = AUTH_REDIRECT_URI
 os.environ['AUTH_BASIC_USER'] = TEST_USER
@@ -89,7 +90,6 @@ def test_auth_flask_basic_headers(flask_basic_required):
 def test_auth_flask_basic_access(flask_basic_required):
 
     basic_auth_value = b64encode(f"{TEST_USER}:{TEST_PWD}".encode()).decode()
-    print(basic_auth_value)
     response = flask_basic_required.get('/test', headers={'Authorization': f'Basic {basic_auth_value}'})
     
     assert response.status_code == 200
@@ -106,6 +106,11 @@ def dash_login_required(flask_server):
     )
     dash.layout = html.Div('Hello World!')
     dash = auth.register_dash(dash)
+    
+    @dash.server.route(TEST_DASH_BASIC_PATH)
+    @auth.basic_required
+    def send_status():
+        return ('OK!',200)
     
     return flask_server.test_client()
 
@@ -126,3 +131,16 @@ def test_auth_dash_register_access(dash_login_required):
 
     response = dash_login_required.get(TEST_DASH_PATH)
     assert response.status_code == 200
+
+
+def test_auth_dash_basic_admin_access(dash_login_required):
+
+    basic_auth_value = b64encode(f"{TEST_USER}:{TEST_PWD}".encode()).decode()
+    response = dash_login_required.get(TEST_DASH_BASIC_PATH, headers={'Authorization': f'Basic {basic_auth_value}'})
+    assert response.status_code == 200
+
+
+def test_auth_dash_basic_admin_redirect(dash_login_required):
+
+    response = dash_login_required.get(TEST_DASH_BASIC_PATH)
+    assert response.status_code == 302

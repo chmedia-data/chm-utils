@@ -1,6 +1,6 @@
 [project]
 name = "chm_utils"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
   "boto3",
   "PyYAML"
@@ -14,9 +14,7 @@ readme = "readme.md"
 
 [project.optional-dependencies]
 snowflake = [
-  "snowflake-connector-python>=3.0.2",
-  "numpy<2",
-  "pandas>=2.0.1"
+  "snowflake-connector-python[pandas]>=3.12.0",
 ]
 redis = [
   "redis"
@@ -24,10 +22,16 @@ redis = [
 auth = [
   "dash>=2.7.0"
 ]
-test = [
-  "pytest",
-  "dash>=2.7.0"
-]
 
 [project.scripts]
 chm_utils = "chm_utils.cli:main"
+
+[tool.setuptools]
+packages = ["chm_utils", "chm_utils.clients", "chm_utils.ext"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:datetime.datetime.utcnow:DeprecationWarning:botocore"
+]
+log_cli = 1
+log_cli_level="INFO"
