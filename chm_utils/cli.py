@@ -13,12 +13,32 @@ def main():
         type=str, 
         help='Where in the sls config is the environment defined?'
     )
+    parser.add_argument(
+        '-of', 
+        '--output-file', 
+        type=str,
+        default=None,
+        help='Output to file instead of stdout'
+    )
 
     args = parser.parse_args()
     if args.command and args.command.lower()  == 'sls.get_env':
         sls_env_path = args.sls_env_path or os.environ.get('SLS_ENV_PATH')
         env = sls.get_env(sls_env_path)
-        print(' '.join([f'{k}={shlex.quote(v)}' for k, v in env.items()]))
+        
+        # Generate env variable exports
+        env_lines = []
+        for k, v in env.items():
+            env_lines.append(f"export {k}={shlex.quote(v)}")
+        
+        output = "\n".join(env_lines)
+        
+        # Either write to file or print to stdout
+        if args.output_file is not None:
+            with open(args.output_file, 'w') as f:
+                f.write(output)
+        else:
+            print(output)
 
     elif args.command == 'version':
         print("`chm_utils` version: "+__version__)
