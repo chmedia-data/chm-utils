@@ -14,6 +14,13 @@ def main():
         help='Where in the sls config is the environment defined?'
     )
     parser.add_argument(
+        '-ssm',
+        '--ssm_params',
+        type=str,
+        nargs='+',
+        help='List of SSM parameters to fetch directly'
+    )
+    parser.add_argument(
         '-of', 
         '--output-file', 
         type=str,
@@ -23,9 +30,16 @@ def main():
 
     args = parser.parse_args()
     if args.command and args.command.lower()  == 'sls.get_env':
-        sls_env_path = args.sls_env_path or os.environ.get('SLS_ENV_PATH')
-        env = sls.get_env(sls_env_path)
+        env = {}
         
+        if args.sls_env_path or os.environ.get('SLS_ENV_PATH'):
+            sls_env_path = args.sls_env_path or os.environ.get('SLS_ENV_PATH')
+            env.update(sls.get_env(sls_env_path))
+        
+        if args.ssm_params:
+            ssm_env = sls.get_ssm_params(args.ssm_params)
+            env.update(ssm_env)
+            
         # Generate env variable exports
         env_lines = []
         for k, v in env.items():
