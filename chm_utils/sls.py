@@ -66,64 +66,29 @@ def get_params(config,env_path):
 
 
 def resolve_ssm_params(ssm_params):
-
-    env = {}
-    ssm = boto3.client('ssm')
-
-    # batch requests
-    for i in range(0,len(ssm_params),10):
-
-        from_idx = i
-        to_idx = min(i+10,len(ssm_params))
-        batch = ssm_params[from_idx:to_idx]
-        batch_names = [i['ssm_path'] for i in batch]
-        batch_keys = {i['ssm_path']:i['key'] for i in batch}
-
-        response = ssm.get_parameters(Names=batch_names)
-        
-        response_names = [i.get('Name','') for i in response.get('Parameters',[])]
-        missing_params = [i for i in batch_names if not i in response_names]
-        if len(missing_params) > 0:
-            raise Exception('Parameter(s) not found: '+','.join(missing_params))
-        
-        for p in response['Parameters']:
-            var_name = batch_keys[p['Name']]
-            env[var_name] = p['Value']
-        
-    return env
+    return resolve_parameters(ssm_params, decrypt=False)
 
 
 def get_ssm_params(ssm_param_paths):
+    ssm_params = [{'ssm_path': path, 'key': path.split('/')[-1]} for path in ssm_param_paths]
+    return resolve_parameters(ssm_params, decrypt=True)
+
+def resolve_parameters(ssm_params, decrypt=False):
     env = {}
     ssm = boto3.client('ssm')
-    
-    # Convert to list of dicts with ssm_path and key (extracted from path)
-    ssm_params = []
-    for path in ssm_param_paths:
-        # Extract key from path (last part after last slash)
-        key = path.split('/')[-1]
-        ssm_params.append({'ssm_path': path, 'key': key})
-    
     for i in range(0, len(ssm_params), 10):
-        from_idx = i
-        to_idx = min(i+10, len(ssm_params))
-        batch = ssm_params[from_idx:to_idx]
-        batch_names = [i['ssm_path'] for i in batch]
-        batch_keys = {i['ssm_path']: i['key'] for i in batch}
-
-        response = ssm.get_parameters(Names=batch_names, WithDecryption=True)
-        
-        response_names = [i.get('Name','') for i in response.get('Parameters',[])]
-        missing_params = [i for i in batch_names if not i in response_names]
-        if len(missing_params) > 0:
-            raise Exception('Parameter(s) not found: '+','.join(missing_params))
-        
+        batch = ssm_params[i:i+10]
+        batch_names = [param['ssm_path'] for param in batch]
+        batch_keys = {param['ssm_path']: param['key'] for param in batch}
+        response = ssm.get_parameters(Names=batch_names, WithDecryption=decrypt)
+        response_names = [p.get('Name', '') for p in response.get('Parameters', [])]
+        missing_params = [name for name in batch_names if name not in response_names]
+        if missing_params:
+            raise Exception('Parameter(s) not found: ' + ','.join(missing_params))
         for p in response['Parameters']:
-            var_name = batch_keys[p['Name']]
-            env[var_name] = p['Value']
-    
+            key = batch_keys[p['Name']]
+            env[key] = p['Value']
     return env
-
 
 def get_env(env_path=None,config=None):
 
