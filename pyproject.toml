@@ -1,6 +1,6 @@
 [project]
 name = "chm_utils"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
   "boto3",
   "PyYAML"
@@ -14,7 +14,7 @@ readme = "readme.md"
 
 [project.optional-dependencies]
 snowflake = [
-  "snowflake-connector-python[pandas]>=3.12.0",
+  "snowflake-connector-python[pandas]>=3.15.0",
 ]
 redis = [
   "redis"
