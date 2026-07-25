@@ -34,9 +34,14 @@ and any divergence between them silently changes what search returns.
 ```python
 from chm_utils.livingdocs import publication_to_markdown, header_text, is_ticker
 
-markdown = publication_to_markdown(document)               # capped for embedding
-full     = publication_to_markdown(document, max_chars=None)
+# defaults are tuned for embedding: capped length, tickers reduced, no image URLs
+markdown = publication_to_markdown(document)
 kicker   = header_text(document)                           # "Kicker\nTitle"
+
+# for display or LLM context instead — full length, all posts, images kept
+full = publication_to_markdown(
+    document, max_chars=None, max_ticker_posts=None, include_images=True
+)
 ```
 
 A `document` is any mapping with `content`, and optionally `metadata`,

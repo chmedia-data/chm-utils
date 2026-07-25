@@ -163,23 +163,39 @@ def _children(comp):
             yield child
 
 
-def _list_lines(comp, marker):
+def _list_lines(comp, marker, include_images):
     """`list` / `numeric-list`: optional title, then list-item children."""
     lines = []
     title = _text((comp.get("content") or {}).get("title"))
     if title:
         lines.append(f"**{title}**")
     for n, child in enumerate(_children(comp), start=1):
-        for text in _component_lines(child):
+        for text in _component_lines(child, include_images):
             bullet = marker if marker != "1." else f"{n}."
             lines.append(f"{bullet} {text.lstrip('- ')}" if text else text)
     return lines
 
 
-def _media_lines(comp):
-    """Keep only the editorial text attached to an asset (caption, credit)."""
+def _image_md(val):
+    url = val.get("url") or val.get("originalUrl")
+    if not url:
+        return None
+    alt = _text(val.get("altText")) or "image"
+    return f"![{alt}]({url})"
+
+
+def _media_lines(comp, include_images):
+    """The editorial text attached to an asset (caption, credit), and — only
+    when rendering for display — the asset itself. Image URLs are pure noise in
+    an embedding, so they are omitted by default."""
     content = comp.get("content") or {}
     lines = []
+    if include_images:
+        for val in content.values():
+            if isinstance(val, dict):
+                img = _image_md(val)
+                if img:
+                    lines.append(img)
     for key in ("title", "description", "caption", "credit", "author"):
         text = _text(content.get(key))
         if text:
@@ -187,7 +203,7 @@ def _media_lines(comp):
     return lines
 
 
-def _ticker_post_lines(comp):
+def _ticker_post_lines(comp, include_images):
     """A ticker post: its timestamp as a heading, then its child components."""
     content = comp.get("content") or {}
     lines = []
@@ -200,11 +216,11 @@ def _ticker_post_lines(comp):
         # headings, and a heading here would invert the hierarchy
         lines.append(f"**{', '.join(stamp)}**")
     for child in _children(comp):
-        lines.extend(_component_lines(child))
+        lines.extend(_component_lines(child, include_images))
     return lines
 
 
-def _component_lines(comp):
+def _component_lines(comp, include_images=False):
     if not isinstance(comp, dict):
         return []
 
@@ -224,16 +240,16 @@ def _component_lines(comp):
         return lines
 
     if name in _TICKER_POSTS:
-        return _ticker_post_lines(comp)
+        return _ticker_post_lines(comp, include_images)
 
     if name == "list":
-        return _list_lines(comp, "-")
+        return _list_lines(comp, "-", include_images)
 
     if name == "numeric-list":
-        return _list_lines(comp, "1.")
+        return _list_lines(comp, "1.", include_images)
 
     if name in _MEDIA:
-        return _media_lines(comp)
+        return _media_lines(comp, include_images)
 
     if name == "catchword":
         # a single topic keyword ("Tennis", "Trockenheit") - useful retrieval signal
@@ -269,7 +285,7 @@ def _component_lines(comp):
                 lines.append(text)
 
     for child in _children(comp):
-        lines.extend(_component_lines(child))
+        lines.extend(_component_lines(child, include_images))
 
     return lines
 
@@ -381,27 +397,38 @@ def _limit_ticker_posts(lines_per_component, max_posts):
     return kept
 
 
-def _walk_top_level(components):
+def _walk_top_level(components, include_images):
     """Yield (is_ticker_post, lines) for each top-level body component, so
     ticker posts can be counted and capped before the text is joined."""
     for comp in components:
         name = comp.get("component") or ""
         if name == "article-container" or name in _CONTAINER_ONLY:
             for child in _children(comp):
-                yield from _walk_top_level([child])
+                yield from _walk_top_level([child], include_images)
             continue
-        yield name in _TICKER_POSTS, _component_lines(comp)
+        yield name in _TICKER_POSTS, _component_lines(comp, include_images)
 
 
-def publication_to_markdown(document, max_chars=MAX_EMBED_CHARS, max_ticker_posts=MAX_TICKER_POSTS):
-    """Livingdocs webhook document -> markdown string for embedding.
+def publication_to_markdown(
+    document,
+    max_chars=MAX_EMBED_CHARS,
+    max_ticker_posts=MAX_TICKER_POSTS,
+    include_images=False,
+):
+    """Livingdocs document -> markdown string.
 
-    Tickers keep their header plus the newest `max_ticker_posts` posts; every
-    article is then capped at `max_chars` on a paragraph boundary. Pass
-    max_chars=None to render the full document.
+    Defaults are tuned for embedding: tickers keep their header plus the newest
+    `max_ticker_posts` posts, the result is capped at `max_chars` on a paragraph
+    boundary, and image URLs are omitted because they are noise in a vector.
+
+    To render an article for display or as LLM context instead, turn all three
+    off:
+
+        publication_to_markdown(doc, max_chars=None, max_ticker_posts=None,
+                                include_images=True)
     """
     components = _root_components(document)
-    blocks = list(_walk_top_level(components))
+    blocks = list(_walk_top_level(components, include_images))
 
     if max_ticker_posts is not None and is_ticker(document):
         body = _limit_ticker_posts(blocks, max_ticker_posts)

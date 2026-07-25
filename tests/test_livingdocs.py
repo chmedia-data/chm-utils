@@ -297,3 +297,48 @@ class TestRealPayloads:
         assert header_text(load_fixture('ld_liveticker_event')) == (
             'Grosser Rat\nGPK-Bericht zur Basler Polizei: Eymann wünscht sich Ruhe fürs Korps'
         )
+
+
+class TestDisplayRendering:
+    """Rendering an article for display or LLM context rather than embedding:
+    full length, all ticker posts, images kept. Fixture is a Livingdocs public
+    API latestPublication response, the shape chm-mcp's get_article_content
+    receives."""
+
+    def _publication(self):
+        return load_fixture('article_ld_4198876')[0]
+
+    def _rendered(self):
+        return publication_to_markdown(
+            self._publication(),
+            max_chars=None,
+            max_ticker_posts=None,
+            include_images=True,
+        )
+
+    def test_renders_structure(self):
+        md = self._rendered()
+
+        assert md.startswith('**Hitze**')  # kicker/label
+        assert '# Über 30 Grad im Wasser: Jetzt kämpfen die Fische ums Überleben' in md
+        assert '*Rekordtemperaturen in Flüssen' in md          # lead
+        assert '## War das Wasser in Seen und Flüssen' in md   # subtitle
+
+    def test_keeps_images_and_credits(self):
+        md = self._rendered()
+
+        assert md.count('![') == 4                             # all images kept
+        assert '*Bild: Georgios Kefalas / Keystone*' in md     # image credit
+
+    def test_drops_embeds_and_related_lists(self):
+        md = self._rendered()
+
+        assert 'DWWrapper' not in md      # free-html embed dropped
+        assert 'Mehr zum Thema' not in md  # related-article list dropped
+
+    def test_embedding_defaults_drop_image_urls(self):
+        # the same document rendered for embedding: captions survive, URLs do not
+        md = publication_to_markdown(self._publication(), max_chars=None)
+
+        assert '![' not in md
+        assert 'Bild: Georgios Kefalas / Keystone' in md
