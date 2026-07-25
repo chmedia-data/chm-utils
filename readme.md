@@ -25,6 +25,31 @@ from chm_utils import sls
 sls.set_env(env_path='functions.myfunction.environment')
 ```
 
+### Livingdocs Rendering
+Renders a Livingdocs article to markdown. Pure functions, standard library only —
+no extra dependencies. It lives here because several consumers need *identical*
+rendering: chm-stream embeds the output, chm-mcp serves it as retrieval context,
+and any divergence between them silently changes what search returns.
+
+```python
+from chm_utils.livingdocs import publication_to_markdown, header_text, is_ticker
+
+markdown = publication_to_markdown(document)               # capped for embedding
+full     = publication_to_markdown(document, max_chars=None)
+kicker   = header_text(document)                           # "Kicker\nTitle"
+```
+
+A `document` is any mapping with `content`, and optionally `metadata`,
+`systemdata` and `custom` — the shape of both the collector's webhook payload and
+a row of `chm_core_prod.content.articles_v2`.
+
+Component handling is derived from an inventory of all 69 component types in the
+archive; unknown components degrade to plain paragraphs rather than vanishing.
+`publication_to_markdown` caps output at `MAX_EMBED_CHARS` (8000) on a paragraph
+boundary, and for live tickers — which average ~57k characters and reach 300k —
+keeps the header plus the newest `MAX_TICKER_POSTS` (5) posts. Pass
+`max_chars=None` / `max_ticker_posts=None` to render the whole document.
+
 ## Clients
 ### Snowflake
 A small snowflake wrapper using common environment variables as connection settings and frequently used SQL to pandas DataFrame helper function `get_query_df`:
