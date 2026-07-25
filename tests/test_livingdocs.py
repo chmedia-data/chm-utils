@@ -335,6 +335,8 @@ class TestDisplayRendering:
 
         assert 'DWWrapper' not in md      # free-html embed dropped
         assert 'Mehr zum Thema' not in md  # related-article list dropped
+        # unresolved document $refs must not leak into the output
+        assert '$ref' not in md and 'doc-' not in md
 
     def test_embedding_defaults_drop_image_urls(self):
         # the same document rendered for embedding: captions survive, URLs do not
