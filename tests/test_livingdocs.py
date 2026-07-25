@@ -1,7 +1,15 @@
+import json
+
 import pytest
 
 from chm_utils import livingdocs
 from chm_utils.livingdocs import header_text, is_ticker, publication_to_markdown
+
+
+def load_fixture(name):
+    """A real CMS payload, dumped from chm_core_prod.content.articles_v2."""
+    with open(f'tests/fixtures/{name}.json') as f:
+        return json.load(f)
 
 
 def component(name, content=None, containers=None):
@@ -252,3 +260,40 @@ class TestTruncation:
     def test_short_article_is_untouched(self):
         doc = document([component('paragraph', {'text': 'Kurz.'})])
         assert publication_to_markdown(doc).count('Kurz.') == 1
+
+
+class TestRealPayloads:
+    """Against real articles pulled from the CMS, which exercise component
+    combinations no hand-written fixture would think to produce."""
+
+    def test_liveticker_keeps_header_and_newest_posts(self):
+        doc = load_fixture('ld_liveticker_event')
+        assert is_ticker(doc)
+
+        full = publication_to_markdown(doc, max_chars=None, max_ticker_posts=None)
+        embed = publication_to_markdown(doc)
+
+        assert len(full) > len(embed)
+        assert len(embed) <= livingdocs.MAX_EMBED_CHARS
+        # the header survives truncation, and the newest post is kept
+        assert 'GPK-Bericht zur Basler Polizei' in embed
+        assert 'Parlament genehmigt Bericht' in embed
+
+    def test_ticker_without_liveticker_posts_is_still_capped(self):
+        # documentClass says ticker, but it is built from headerLongform and
+        # highlighted-post rather than liveticker-post components
+        doc = load_fixture('ld_ticker_event')
+        assert is_ticker(doc)
+        assert len(publication_to_markdown(doc)) <= livingdocs.MAX_EMBED_CHARS
+
+    @pytest.mark.parametrize('name', ['ld_liveticker_event', 'ld_ticker_event'])
+    def test_no_html_survives_rendering(self, name):
+        md = publication_to_markdown(load_fixture(name), max_chars=None)
+
+        assert '<p>' not in md and '<div' not in md
+        assert '&nbsp;' not in md and '\xa0' not in md
+
+    def test_header_text_from_real_payload(self):
+        assert header_text(load_fixture('ld_liveticker_event')) == (
+            'Grosser Rat\nGPK-Bericht zur Basler Polizei: Eymann wünscht sich Ruhe fürs Korps'
+        )
