@@ -1,3 +1,6 @@
+default:
+    just -l
+
 test PATH="":
     docker build -t chm_utils . -f Dockerfile.test && \
         docker run \
