@@ -1,0 +1,1087 @@
+[
+    {
+        "systemdata": {
+            "version": 533,
+            "projectId": 1,
+            "channelId": 1,
+            "documentId": 4198876,
+            "contentType": "article",
+            "documentType": "article",
+            "title": "Über 30 Grad im Wasser: Jetzt kämpfen die Fische ums Überleben",
+            "publicationId": 6745811,
+            "firstPublicationDate": "2026-07-08T03:00:00.000Z",
+            "lastPublicationDate": "2026-07-08T15:38:30.434Z",
+            "updatedAt": "2026-07-08T15:38:30.434Z",
+            "significantPublicationDate": "2026-07-08T03:00:00.000Z",
+            "visiblePublicationDate": "2026-07-08T03:00:00.000Z",
+            "design": {
+                "name": "p:1:1",
+                "version": "229.0.0"
+            },
+            "layout": "article"
+        },
+        "metadata": {
+            "department": {
+                "$ref": "document",
+                "reference": {
+                    "id": "4000477"
+                }
+            },
+            "authors": {
+                "$ref": "documents",
+                "references": [
+                    {
+                        "id": "994880"
+                    },
+                    {
+                        "id": "2597454"
+                    }
+                ]
+            },
+            "origin": "schweizheute.ch",
+            "shared": true,
+            "title": "Über 30 Grad im Wasser: Jetzt kämpfen die Fische ums Überleben",
+            "kordiamWorkingTitle": "Q&A, Es ist viel zu trocken. Alles zu Flüssen, Seen und Fischen",
+            "kordiamPublicationDate": "2026-07-08",
+            "kordiamPrintEdition": "Print | CHM Mantel",
+            "kordiamPrintDepartment": "Kultur & Leben - Backpage",
+            "kordiamUrgency": "",
+            "kordiamPageSequenceDepartment": "",
+            "kordiamExpirationDate": "",
+            "kordiamNoteToProduction": "",
+            "kordiamStoryStatus": "noStatus",
+            "slug": {
+                "slug": "schweizer-gewaesser-fische-kaempfen-gegen-hitze-und-trockenheit",
+                "manual": false
+            },
+            "dependencies": {},
+            "teaserImage": {
+                "mediaId": "GJswsFFeSob6",
+                "key": "2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg",
+                "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg",
+                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?w=1024&auto=format&s=0c4c6b39121e5947f592ecc09d5d2189",
+                "width": 3647,
+                "height": 2432,
+                "mimeType": "image/jpeg",
+                "crops": [
+                    {
+                        "isAutomatic": false,
+                        "x": 295,
+                        "y": 279,
+                        "width": 3014,
+                        "height": 1695,
+                        "name": "web-teaser",
+                        "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=295%2C279%2C3014%2C1695&w=1024&auto=format&s=5344c7cc0161a7b921b6beb0f0f9eb32",
+                        "ratio": 1.77778,
+                        "srcSet": [
+                            {
+                                "width": 2048,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=295%2C279%2C3014%2C1695&w=2048&auto=format&s=c340d23fb7f8a6be69aebe8601cc2071"
+                            },
+                            {
+                                "width": 1024,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=295%2C279%2C3014%2C1695&w=1024&auto=format&s=5344c7cc0161a7b921b6beb0f0f9eb32"
+                            },
+                            {
+                                "width": 620,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=295%2C279%2C3014%2C1695&w=620&auto=format&s=c74c8cec10255ffd16f82c1e6714fefc"
+                            },
+                            {
+                                "width": 320,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=295%2C279%2C3014%2C1695&w=320&auto=format&s=acbbf5ae0af3cd5266d7044353e884ba"
+                            }
+                        ]
+                    },
+                    {
+                        "isAutomatic": false,
+                        "x": 316,
+                        "y": 211,
+                        "width": 3014,
+                        "height": 2009,
+                        "name": "web-teaser-3to2",
+                        "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=316%2C211%2C3014%2C2009&w=1024&auto=format&s=82e27f76bdbd523245698013dd5ef51a",
+                        "ratio": 1.5,
+                        "srcSet": [
+                            {
+                                "width": 2048,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=316%2C211%2C3014%2C2009&w=2048&auto=format&s=82e47ebb260787c80f593825bee601a2"
+                            },
+                            {
+                                "width": 1024,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=316%2C211%2C3014%2C2009&w=1024&auto=format&s=82e27f76bdbd523245698013dd5ef51a"
+                            },
+                            {
+                                "width": 620,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=316%2C211%2C3014%2C2009&w=620&auto=format&s=dcdff6b8e4869f661b143dc379f7bb0e"
+                            },
+                            {
+                                "width": 320,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=316%2C211%2C3014%2C2009&w=320&auto=format&s=6190609e63059bc984d00190d9d05d97"
+                            }
+                        ]
+                    },
+                    {
+                        "isAutomatic": true,
+                        "x": 1013,
+                        "y": 0,
+                        "width": 1621,
+                        "height": 2432,
+                        "name": "web-teaser-2to3",
+                        "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=1013%2C0%2C1621%2C2432&w=1024&auto=format&s=4cc932165e67c94ce2155746ac7e8f3f",
+                        "ratio": 0.666667,
+                        "srcSet": [
+                            {
+                                "width": 2048,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=1013%2C0%2C1621%2C2432&w=2048&auto=format&s=beb043d3dd468ab17d76e60876888eee"
+                            },
+                            {
+                                "width": 1024,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=1013%2C0%2C1621%2C2432&w=1024&auto=format&s=4cc932165e67c94ce2155746ac7e8f3f"
+                            },
+                            {
+                                "width": 620,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=1013%2C0%2C1621%2C2432&w=620&auto=format&s=fbebd6a0b5d7dde2f08b723a8566b212"
+                            },
+                            {
+                                "width": 320,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=1013%2C0%2C1621%2C2432&w=320&auto=format&s=b6f52bfc8256a6df1b6d719cdd981526"
+                            }
+                        ]
+                    },
+                    {
+                        "isAutomatic": false,
+                        "x": 719,
+                        "y": 111,
+                        "width": 2211,
+                        "height": 2211,
+                        "name": "web-teaser-1to1",
+                        "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=719%2C111%2C2211%2C2211&w=1024&auto=format&s=245761c48acc3c4a6fd85ae7f7281436",
+                        "ratio": 1,
+                        "srcSet": [
+                            {
+                                "width": 2048,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=719%2C111%2C2211%2C2211&w=2048&auto=format&s=df7c62d13fffc9118b79f76b366e2d6d"
+                            },
+                            {
+                                "width": 1024,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=719%2C111%2C2211%2C2211&w=1024&auto=format&s=245761c48acc3c4a6fd85ae7f7281436"
+                            },
+                            {
+                                "width": 620,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=719%2C111%2C2211%2C2211&w=620&auto=format&s=6b71bcce93262caa4e5133f3212ebe5e"
+                            },
+                            {
+                                "width": 320,
+                                "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?rect=719%2C111%2C2211%2C2211&w=320&auto=format&s=e87493c5546a80b1b31033a65907121a"
+                            }
+                        ]
+                    }
+                ],
+                "imageService": "imgix"
+            },
+            "imatrics": {
+                "concepts": [
+                    {
+                        "aliases": [],
+                        "weight": 1,
+                        "shortDescription": "",
+                        "title": "Seen und Meere",
+                        "type": "topic",
+                        "uuid": "b1f356cf-cf0e-3751-b32a-2b6d4eb54dae",
+                        "slug": "seen-und-meere"
+                    },
+                    {
+                        "aliases": [],
+                        "weight": 0.9950926756782714,
+                        "shortDescription": "",
+                        "title": "Wasser",
+                        "type": "topic",
+                        "uuid": "8e0852bd-f3fa-3641-81bc-789b0a42fc96",
+                        "slug": "wasser"
+                    },
+                    {
+                        "aliases": [],
+                        "weight": 0.8250532723595846,
+                        "shortDescription": "",
+                        "title": "Schnee",
+                        "type": "topic",
+                        "uuid": "74098ccf-1825-35e9-bda2-494c320428c1",
+                        "slug": "schnee"
+                    },
+                    {
+                        "aliases": [],
+                        "weight": 1,
+                        "shortDescription": "",
+                        "title": "Tiere und Natur",
+                        "type": "category",
+                        "uuid": "c15c3832-6c20-3caf-951a-d5648193c62f",
+                        "slug": "tiere-und-natur"
+                    },
+                    {
+                        "aliases": [],
+                        "weight": 0.9950926756782714,
+                        "shortDescription": "",
+                        "title": "Klima und Umwelt",
+                        "type": "category",
+                        "uuid": "d221f17e-09d4-3c70-a41e-f8866c4898e1",
+                        "slug": "klima-und-umwelt"
+                    },
+                    {
+                        "aliases": [
+                            "Schweizer Mittelland",
+                            "Moyen pays",
+                            "Plateau suisse"
+                        ],
+                        "weight": 4,
+                        "shortDescription": "Das Schweizer Mittelland ist mit etwa 30 Prozent Flächenanteil neben dem Jura und den Alpen eine der drei Berggebietsregionen der Schweiz",
+                        "title": "Mittelland",
+                        "type": "place",
+                        "uuid": "dc2db1fb-8004-3cb3-8a43-c3af71f62055",
+                        "slug": "mittelland"
+                    },
+                    {
+                        "aliases": [
+                            "Schweizer Fussballverband",
+                            "Association Suisse de Football",
+                            "Fussball in der Schweiz",
+                            "Schweizerischer Fußballverband",
+                            "Fußball in der Schweiz",
+                            "SFV"
+                        ],
+                        "weight": 2,
+                        "shortDescription": "nationaler Fussballverband der Schweiz",
+                        "title": "Schweizerischer Fussballverband",
+                        "type": "organisation",
+                        "uuid": "d8599808-cf45-310e-98c9-e5dfbb72a0b6",
+                        "slug": "schweizerischer-fussballverband"
+                    },
+                    {
+                        "aliases": [],
+                        "weight": 1,
+                        "shortDescription": "Schweizer Politiker; seit 2022 Bundesrat",
+                        "title": "Albert Rösti",
+                        "type": "person",
+                        "uuid": "06fb771f-b3fc-366c-adba-1a127aa46f7f",
+                        "slug": "albert-roesti"
+                    },
+                    {
+                        "aliases": [
+                            "Eidgenössisches Institut für Schnee- und Lawinenforschung",
+                            "Institut für Schnee- und Lawinenforschung",
+                            "WSL Institute for Snow and Avalanche Research SLF",
+                            "Eidgenössische Forschungsanstalt für Wald, Schnee und Landschaft WSL"
+                        ],
+                        "weight": 1,
+                        "shortDescription": "Das WSL-Institut für Schnee- und Lawinenforschung SLF (bis 2008 Eidgenössisches Institut für Schnee- und Lawinenforschung) in Davos im Kanton Graubünden ist ein interdisziplinär ausgerichtetes Forschungs- und Dienstleistungszentrum und gehört zur Eidgenössischen Forschungsanstalt für Wald, Schnee und Landschaft WSL und damit zum ETH-Bereich. Es ist im Ortsteil Davos Dorf an der Flüelastrasse untergebracht und beschäftigt 200 Mitarbeitende. Das ehemalige Institutsgebäude auf dem Weissfluhjoch",
+                        "title": "WSL-Institut für Schnee- und Lawinenforschung SLF",
+                        "type": "organisation",
+                        "uuid": "3deafb97-6cd7-3543-afe9-db6035cda4d2",
+                        "slug": "wsl-institut-fuer-schnee-und-lawinenforschung-slf"
+                    }
+                ],
+                "contentVersion": "10377233.1"
+            },
+            "teaserLead": "Rekordtemperaturen in Flüssen und Bächen im Schweizer Mittelland – in einigen wurden über 30 Grad gemessen. Für Forellen und Äschen wird die Lage vielerorts lebensbedrohlich.",
+            "teaserLabel": "Hitze",
+            "premium": true,
+            "additionalDepartments": {
+                "$ref": "documents",
+                "references": [
+                    {
+                        "id": "4000481"
+                    },
+                    {
+                        "id": "4000447"
+                    }
+                ]
+            },
+            "showComments": true,
+            "articleFormat": "analyse-hintergrund",
+            "seoTitle": "Schweizer Gewässer: Fische kämpfen gegen Hitze und Trockenheit",
+            "seoDescription": "Rekordtemperaturen setzen Flüssen, Bächen und Seen zu. Für Forellen und Äschen wird die Lage vielerorts lebensbedrohlich.",
+            "seoSocialMediaTitle": "Schweizer Gewässer so warm wie noch nie: Fische kämpfen ums Überleben",
+            "chmPath": "/leben/schweizer-gewaesser-fische-kaempfen-gegen-hitze-und-trockenheit-ld.4198876"
+        },
+        "content": [
+            {
+                "component": "article-container",
+                "identifier": "p:1:1.article-container",
+                "id": "doc-GMX3u5Agaq",
+                "position": "fixed",
+                "containers": {
+                    "header": [
+                        {
+                            "component": "header",
+                            "identifier": "p:1:1.header",
+                            "id": "doc-iA4dhyqMXC",
+                            "content": {
+                                "label": "Hitze",
+                                "title": "Über 30 Grad im Wasser: Jetzt kämpfen die Fische ums Überleben",
+                                "lead": "Rekordtemperaturen in Flüssen und Bächen im Schweizer Mittelland – in einigen wurden über 30 Grad gemessen. Für Forellen und Äschen wird die Lage vielerorts lebensbedrohlich."
+                            },
+                            "containers": {
+                                "authors": [
+                                    {
+                                        "component": "teaser-author",
+                                        "identifier": "p:1:1.teaser-author",
+                                        "id": "doc-oDePjTZRMw",
+                                        "content": {
+                                            "teaser": {
+                                                "service": "author-service",
+                                                "params": {
+                                                    "layout": "teaser-author-template",
+                                                    "article": {
+                                                        "$ref": "document",
+                                                        "reference": {
+                                                            "id": "994880"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "component": "teaser-author",
+                                        "identifier": "p:1:1.teaser-author",
+                                        "id": "doc-1jsuj0gff0",
+                                        "content": {
+                                            "teaser": {
+                                                "service": "author-service",
+                                                "params": {
+                                                    "layout": "teaser-author-template",
+                                                    "article": {
+                                                        "$ref": "document",
+                                                        "reference": {
+                                                            "id": "2597454"
+                                                        }
+                                                    }
+                                                },
+                                                "overrides": [
+                                                    {
+                                                        "id": "teaser-author-template-2597454",
+                                                        "content": {
+                                                            "image": {
+                                                                "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg",
+                                                                "url": "https://chm-images-prd.forward-publishing.io/2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg?rect=0%2C0%2C2947%2C2947&w=1024&auto=format&s=13c30c65535aa646f607f084fba68fa7",
+                                                                "width": 2947,
+                                                                "height": 2947,
+                                                                "mimeType": "image/jpeg",
+                                                                "imageService": "imgix",
+                                                                "mediaId": "AD1WuLIyxMog",
+                                                                "crop": {
+                                                                    "name": "1:1",
+                                                                    "x": 0,
+                                                                    "y": 0,
+                                                                    "width": 2947,
+                                                                    "height": 2947
+                                                                },
+                                                                "key": "2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg"
+                                                            },
+                                                            "title": "Grafikdaten: Felix Ertle"
+                                                        },
+                                                        "originalSnapshot": {
+                                                            "image": {
+                                                                "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg",
+                                                                "url": "https://chm-images-prd.forward-publishing.io/2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg?rect=0%2C0%2C2947%2C2947&w=1024&auto=format&s=13c30c65535aa646f607f084fba68fa7",
+                                                                "width": 2947,
+                                                                "height": 2947,
+                                                                "mimeType": "image/jpeg",
+                                                                "imageService": "imgix",
+                                                                "mediaId": "AD1WuLIyxMog",
+                                                                "crop": {
+                                                                    "name": "1:1",
+                                                                    "x": 0,
+                                                                    "y": 0,
+                                                                    "width": 2947,
+                                                                    "height": 2947
+                                                                },
+                                                                "key": "2025/04/08/51b60858-1e98-478f-87a5-27b07b3dfe13.jpeg"
+                                                            },
+                                                            "title": "Felix Ertle"
+                                                        },
+                                                        "contentProperties": [
+                                                            "image",
+                                                            "title"
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "main": [
+                        {
+                            "component": "image",
+                            "identifier": "p:1:1.image",
+                            "id": "doc-1jsu5s4ea1",
+                            "content": {
+                                "image": {
+                                    "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg",
+                                    "mediaId": "GJswsFFeSob6",
+                                    "key": "2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg",
+                                    "width": 3647,
+                                    "height": 2432,
+                                    "mimeType": "image/jpeg",
+                                    "altText": "Luftaufnahme der gesperrten Birs in Basel, am Mittwoch, 24. Juni 2026. Um den Stress fuer die Fische zu minimieren und einem Fischsterben vorzubeugen, hat das Amt fuer Wald und Wild beider Basel in enger Abstimmung mit den Behoerden von Basel-Stadt am Unterlauf der Birs ein Bade- und Betretungsverbot fuer Mensch und Tier verfuegt. Ebenso verboten ist das Fischen in diesen Bereichen. (KEYSTONE/Georgios Kefalas)",
+                                    "origins": [
+                                        {
+                                            "name": "hugo",
+                                            "identifier": "2176532600"
+                                        }
+                                    ],
+                                    "imageService": "imgix",
+                                    "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/776d42b9-bbfa-45e4-beb3-b36a9379c0ad.jpg?w=1024&auto=format&s=0c4c6b39121e5947f592ecc09d5d2189"
+                                },
+                                "caption": "Baden und Betreten verboten: Bei der Birs in Basel soll damit der Stress für die Fische minimiert werden.",
+                                "author": "Bild: Georgios Kefalas / Keystone"
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsuflj6h0",
+                            "content": {
+                                "title": "War das Wasser in Seen und Flüssen jemals wärmer?"
+                            },
+                            "data": {
+                                "_titleDirective": {
+                                    "highlightedTextRanges": {
+                                        "QxoXWkKLETvh": {
+                                            "start": 0,
+                                            "end": 48,
+                                            "text": "Sind die hohen Wassertemperaturen in Rekordhöhe?"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsufljub0",
+                            "content": {
+                                "text": "Noch nie seit Messbeginn wurden im Juni so hohe  Wassertemperaturen in den Fliessgewässern gemessen. Bei mehr als einem Viertel der Messstationen wurden sogar neue absolute Höchstwerte gemessen. Temporäre Rekordwerte gab es unter anderen in der Goldach mit 33 Grad, in der Aare bei Brugg (26), in der Emme bei Emmenmatt (23), in der Dünnern bei Olten (30), in der Limmat bei Baden (28) und  in der Linth bei Weesen (26). Leicht sind die Temperaturen gesunken, gestern war die Rekordhalterin Goldach zum Beispiel 25 Grad warm, Tendenz wieder nach oben."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-qoOmi8ZqxE",
+                            "content": {
+                                "title": "Wie sehen die Pegelstände der Flüsse aus?"
+                            },
+                            "data": {
+                                "_titleDirective": {
+                                    "highlightedTextRanges": {
+                                        "UxssRNavhUPc": {
+                                            "start": 0,
+                                            "end": 30,
+                                            "text": "Wie sehen die Pegelstände aus?"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsu7in2q0",
+                            "content": {
+                                "text": "Die grossen Schweizer Flüsse führen gemäss dem Bafu zurzeit zu wenig Wasser für die Jahreszeit. Dank ihrer grossen Einzugsgebiete reagieren sie jedoch deutlich langsamer auf die Trockenheit als die kleinen Bäche. Die Pegel der Aare, der Reuss und des Rheins sind unter den jahreszeitlich üblichen Werten. Im Kanton Thurgau gibt es für einzelne Flüsse wie die Sitter und Thur ein Wasserentnahme-Verbot."
+                            },
+                            "data": {
+                                "_textDirective": {
+                                    "highlightedTextRanges": {
+                                        "pMDYYsd-7f1o": {
+                                            "start": 0,
+                                            "end": 135,
+                                            "text": "Das ist das zweite Problem der Gewässer:  PEgelstände.... (((Insbesondere im Mittelland ist es seit dem Frühling ausgesprochen trocken."
+                                        },
+                                        "BNjoY8In2lUs": {
+                                            "start": 206,
+                                            "end": 447,
+                                            "text": "(((Insbesondere im Mittelland ist es seit dem Frühling ausgesprochen trocken. Die Niederschläge blieben deutlich unter dem Durchschnitt, zugleich war es wärmer als üblich. Deshalb sind die Böden ausgetrocknet, die Grundwasserstände tief,))))"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsu7in2s1",
+                            "content": {
+                                "title": "Hatten die Gewitter eine Wirkung?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsu7in2s2",
+                            "content": {
+                                "text": "Die Gewitter Ende Juni und Anfang Juli brachten vor allem entlang der Voralpen und in der Ostschweiz wieder mehr Wasser in die Flüsse und Bäche. Das Defizit ist dort deshalb vorübergehend weniger gross. Im Westen fiel dagegen zu wenig Regen. Dort bleibt das Defizit weiterhin extrem."
+                            },
+                            "data": {
+                                "_textDirective": {
+                                    "highlightedTextRanges": {
+                                        "5lNR6eggm5WB": {
+                                            "start": 166,
+                                            "end": 239,
+                                            "text": "deshalb vorübergehend weniger gross, sagt das Bundesamt für Umwelt (Bafu)"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsufqd7k0",
+                            "content": {
+                                "title": "Wie sieht es bei den Seepegeln aus?"
+                            },
+                            "data": {
+                                "_titleDirective": {
+                                    "highlightedTextRanges": {
+                                        "HYpIcYroHPGa": {
+                                            "start": 36,
+                                            "end": 71,
+                                            "text": "Gibt es da schon historische Tiefs?"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsufqdo30",
+                            "content": {
+                                "text": "Die Wasserstände der meisten grossen Seen in der Schweiz liegen zurzeit im Bereich der für die Jahreszeit üblichen Werte. Ausnahmen sind der Bodensee, der Walensee und der Zugersee: Sie weisen aktuell für die Jahreszeit sehr tiefe Wasserstände auf. In den kommenden Wochen werden die Wasserstände der Schweizer Seen voraussichtlich meist auf dem aktuellen Niveau bleiben oder weiter sinken, sofern keine ergiebigen Niederschläge fallen."
+                            }
+                        },
+                        {
+                            "component": "image",
+                            "identifier": "p:1:1.image",
+                            "id": "doc-1jt0vdcdi1",
+                            "content": {
+                                "image": {
+                                    "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2026/07/07/595a1956-ea1f-4c19-8f49-e545e44f8652.jpg",
+                                    "mediaId": "xR248-g35pRt",
+                                    "key": "2026/07/07/595a1956-ea1f-4c19-8f49-e545e44f8652.jpg",
+                                    "width": 4000,
+                                    "height": 2667,
+                                    "mimeType": "image/jpeg",
+                                    "altText": "Ein Radfahrer faehrt ueber den Seeboden zu einem Bootssteg am Untersee, dem westlichen Teil des Bodensees, am Freitag, 5. Juni 2026, in Mannenbach-Salenstein. Der See weist fuer die Jahreszeit ein Rekordtief auf. (KEYSTONE/Gian Ehrenzeller)",
+                                    "origins": [
+                                        {
+                                            "name": "hugo",
+                                            "identifier": "2176532598"
+                                        }
+                                    ],
+                                    "imageService": "imgix",
+                                    "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/595a1956-ea1f-4c19-8f49-e545e44f8652.jpg?w=1024&auto=format&s=fd71ba3bbaf4875e355a63dd1051332c"
+                                },
+                                "caption": "Der Bodensee weist einen für diese Jahreszeit sehr tiefen Wasserstand auf. Im Bild: Ein Velofahrer fährt über den Seeboden zu einem Bootssteg am Untersee, dem westlichen Teil des Bodensees, 5. Juni 2026.",
+                                "author": "Bild: Gian Ehrenzeller / Keystone"
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsuft35g0",
+                            "content": {
+                                "title": "Die Gletscher verlieren im Moment viel Wasser. Hilft das den Pegeln der Seen und Flüsse in der Schweiz?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsuft3mg0",
+                            "content": {
+                                "text": "«Ja, im Moment und speziell während diesen heissen Sommertagen erhöht das Wasser aus der Gletscherschmelze die Pegel noch», sagt Manuela Brunner vom Institut für Schnee- und Lawinenforschung (SLF).&nbsp;In einigen Jahrzehnten werde dies jedoch nicht mehr der Fall sein, weil die Gletscher dann nur noch klein sind und wenig Schmelzwasser produzieren. Flüsse und Bäche, die noch Gletscherwasser erhalten, führen derzeit noch vergleichsweise viel Wasser. Schmelzwasser von Schnee fliesst schon länger nicht mehr, nur in den Hochalpen liegt noch wenig Schnee."
+                            },
+                            "data": {
+                                "_textDirective": {
+                                    "highlightedTextRanges": {
+                                        "b9QXPeFtUvDM": {
+                                            "start": 403,
+                                            "end": 466,
+                                            "text": "nd abgeschlossen; nur in den Hochalpen liegt noch wenig Schnee."
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "free-html",
+                            "identifier": "p:1:1.free-html",
+                            "id": "doc-1jsugi59k0",
+                            "content": {
+                                "free-html": {
+                                    "service": "free-html",
+                                    "params": {
+                                        "embedCode": "<div id=\"___EINE_ID\"></div><script>(function () {\tfunction initDWWrapper() {\t\tDWWrapper.create({\t\t\ttarget: \"#___EINE_ID\",\t\t\tusePreviewImages: false,\t\t\tcharts: [\t\t\t\t{ button: \"Bodensee\", id: \"ELZFJ\", height: 520 },\t\t\t\t{ button: \"Ägerisee\", id: \"Q7e3C\", height: 520 },\t\t\t\t{ button: \"Aare\", id: \"4VelR\", height: 520 },\t\t\t\t{ button: \"Thur\", id: \"4Rfqr\", height: 520 },\t\t\t],\t\t});\t}\tif (window.DWWrapper) {\t\tinitDWWrapper();\t} else {\t\tvar s = document.createElement(\"script\");\t\ts.src =\t\t\t\"https://chm-editorial-data-static.s3.eu-west-1.amazonaws.com/dw_wrapper/dw_wrapper.js\";\t\ts.onload = initDWWrapper;\t\tdocument.head.appendChild(s);\t}})();</script>"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsums0lm0",
+                            "content": {
+                                "title": "Was ist das Problem, wenn die Gewässer zu warm sind?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsums14t0",
+                            "content": {
+                                "text": "Mit steigender Wassertemperatur kann Wasser grundsätzlich weniger Sauerstoff aufnehmen. Gleichzeitig kann in den lichtdurchfluteten oberen Wasserschichten durch die Fotosynthese von Wasserpflanzen Sauerstoff produziert werden. Deshalb treten dort zeitweise auch hohe Sauerstoffkonzentrationen auf. In tieferen Wasserschichten verhindert die stabile sommerliche Schichtung jedoch den Austausch mit dem Oberflächenwasser, deshalb kommt es zu Sauerstoffmangel."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsums1ad0",
+                            "content": {
+                                "title": "Was bedeutet das für die Fische?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsumts9v0",
+                            "content": {
+                                "text": "Mit steigender Temperatur nimmt ihr Stoffwechsel zu. Sie benötigen also mehr Sauerstoff, während gleichzeitig ihre physiologischen Reserven kleiner werden. Besonders kälteliebende Arten wie Forellen oder Äschen geraten dadurch unter Stress. Wenn zusätzlich der Wasserstand tief ist oder die Strömung nachlässt, verschärft sich die Situation. Denn neben dem erhöhten Sauerstoffbedarf, werden gleichzeitig Rückzugsräume mit kühlem Wasser knapper."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsuea9ti0",
+                            "content": {
+                                "title": "Schon vor zwei Wochen hat der Fischerei-Verband mitgeteilt, dass Fische ums Überleben kämpfen. Hat sich die Situation noch verschärft?"
+                            },
+                            "data": {
+                                "_titleDirective": {
+                                    "highlightedTextRanges": {
+                                        "Qf5PnU5I3e2s": {
+                                            "start": 16,
+                                            "end": 134,
+                                            "text": "ochen hat der Fischerei-Verband mitgeteilt, dass Fische ums Überleben kämpfen. Hat sich die Situation noch verschärft?"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2d0",
+                            "content": {
+                                "text": "«Ja», sagt Alexander Roschi vom Schweizerischen Fischerei-Verband (SFV). Sinkende Wasserstände und steigende Temperaturen bedeuten weniger Sauerstoff und mehr Stress für Fische, Krebse und Wasserinsekten. Für manche beginnt damit ein Kampf ums Überleben. Die Situation verschärft sich zusehends. Mittlerweile sind fast alle Gewässer im Mittelland und den Voralpen betroffen. «Die aktuelle Lage zeigt deutlich, wie verletzlich unsere Gewässer gegenüber längeren Hitze- und Trockenperioden geworden sind», sagt Roschi."
+                            }
+                        },
+                        {
+                            "component": "image",
+                            "identifier": "p:1:1.image",
+                            "id": "doc-1jt0vfi2i1",
+                            "content": {
+                                "image": {
+                                    "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2026/06/26/9a7f3973-95e1-4760-b94e-3671c9fde062.jpg",
+                                    "mediaId": "8ChqnxncgQqF",
+                                    "key": "2026/06/26/9a7f3973-95e1-4760-b94e-3671c9fde062.jpg",
+                                    "width": 1920,
+                                    "height": 887,
+                                    "mimeType": "image/jpeg",
+                                    "altText": "Ein Sinnbild für den aktuellen Zustand vieler Schweizer Gewässer: Die Sissle, ein Rheinzufluss im Kanton Aargau, trocknete diese Woche auf weiten Abschnitten vollständig aus. tote Fisch, Fische",
+                                    "origins": [
+                                        {
+                                            "name": "hugo",
+                                            "identifier": "2176447561"
+                                        }
+                                    ],
+                                    "imageService": "imgix",
+                                    "url": "https://chm-images-prd.forward-publishing.io/2026/06/26/9a7f3973-95e1-4760-b94e-3671c9fde062.jpg?w=1024&auto=format&s=b3825cf179519e31454cf945387f4c7b"
+                                },
+                                "caption": "Ein Sinnbild für den Zustand vieler Schweizer Gewässer: Die Sissle, ein Rheinzufluss im Kanton Aargau, trocknete Ende Juni auf weiten Abschnitten vollständig aus.",
+                                "author": "Bild: SFV, Alexander Roschi"
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2f1",
+                            "content": {
+                                "title": "Was ist das grösste Problem für die Fische?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2f2",
+                            "content": {
+                                "text": "Das Problem ist nicht nur die Hitze, sondern das Zusammenspiel von wenig Wasser, hohen Temperaturen, Sauerstoffmangel und fehlenden Rückzugsräumen. Wo Bäche und Flüsse begradigt oder verbaut sind, können Fische kaum in kühlere Abschnitte ausweichen. Entscheidend sind deshalb genügend Restwasser, naturnahe Gewässer und eine Landschaft, die Wasser länger zurückhält und speichern kann."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2f3",
+                            "content": {
+                                "title": "Die beliebten Forellen und Äschen sind kältebedürftige Fischarten. Wie sieht deren Situation aus?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2g0",
+                            "content": {
+                                "text": "Insbesondere im Schweizer Mittelland sind sie existenziell bedroht. In den grossen Flüssen wie Rhein, Aare, Reuss und Limmat beispielsweise im Kanton Aargau sind die Bestände der Forellen und Äschen kurz vor dem Aussterben. In höher gelegenen oder von kaltem Grundwasser gespeisten Gewässern ist die Situation derzeit noch weniger angespannt. Doch auch dort nehmen die Auswirkungen des Klimawandels und der menschlichen Eingriffe in unsere Gewässer zu."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2g1",
+                            "content": {
+                                "title": "Kleine Bäche führen wenig Wasser. Können Fische dort noch überleben?"
+                            },
+                            "data": {
+                                "_titleDirective": {
+                                    "highlightedTextRanges": {
+                                        "2nUsKAEaoRGR": {
+                                            "start": 32,
+                                            "end": 60,
+                                            "text": " sind vor allem sehr trocken"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2g2",
+                            "content": {
+                                "text": "Dort, wo ein Bach noch ausreichend Wasser führt, und von kühlem Grundwasser gespeist wird, können Fische und andere Wasserlebewesen wie Krebse oder Wasserinsekten vorübergehend überleben. Viele kleine Bäche führen derzeit jedoch nur noch sehr wenig Wasser oder trocknen abschnittsweise ganz aus. Dann fehlt den Fischen und anderen Wasserlebewesen nicht nur genügend Lebensraum, sondern auch ausreichend Sauerstoff und kühle Rückzugsorte."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2g3",
+                            "content": {
+                                "title": "Wo ist es in Bächen besonders dramatisch?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2g4",
+                            "content": {
+                                "text": "Besonders dramatisch wird die Situation dort, wo den Gewässern zusätzlich Wasser entzogen wird oder wo bewusst weniger Wasser zugeführt wird, als für ein funktionierendes Ökosystem notwendig wäre. Auch Wanderhindernisse wie Schwellen oder Wehre verhindern, dass Fische in kühlere Gewässerabschnitte ausweichen können. «In solchen Bächen haben Fische, Krebse und Wasserinsekten oft keine Überlebenschance mehr», sagt Roschi."
+                            },
+                            "data": {
+                                "_textDirective": {
+                                    "highlightedTextRanges": {
+                                        "Aa1kaTdEpxwj": {
+                                            "start": 101,
+                                            "end": 170,
+                                            "text": "o bewusst weniger Wasser zugeführt wird, als für ein funktionierendes"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "image",
+                            "identifier": "p:1:1.image",
+                            "id": "doc-1jsu5vnbe1",
+                            "content": {
+                                "image": {
+                                    "originalUrl": "https://chmediaprod-endpoint-ftdka8arhmfqgya0.z01.azurefd.net/images/2026/07/07/5544ad85-86ff-4232-a5f0-fbc5348c48c0.jpg",
+                                    "mediaId": "OS3uKcF1e3X1",
+                                    "key": "2026/07/07/5544ad85-86ff-4232-a5f0-fbc5348c48c0.jpg",
+                                    "width": 2000,
+                                    "height": 924,
+                                    "mimeType": "image/jpeg",
+                                    "altText": "St.Gallen: Feuerwehr birgt erneut tote Fische aus dem Nestweiher\nAm Mittwochabend (24.06.2026) standen rund 14 Angehörige der Milizfeuerwehr St.Gallen bei vier Weihern im Stadtgebiet im Einsatz. Im Fokus stand dabei erneut der Nestweiher, wo mit einem kleinen Boot weitere tote Fische aus dem Gewässer geborgen wurden. Bereits am Montag waren rund 600 verendete Fische aus dem Nestweiher entfernt worden. Beim Einsatz vom Mittwoch kamen weitere rund 400 tote Fische hinzu. Die geborgenen Tiere werden anschliessend der TMF Extraktionswerk AG in Bazenheid zur fachgerechten Entsorgung zugeführt. Fakt ist, dass im Nestweiher ein Sauerstoffmangel festgestellt wurde. Um die Situation für die noch lebenden Fische zu verbessern, wurde der Weiher beregnet. Mit dieser Massnahme soll zusätzlicher Sauerstoff ins Wasser eingebracht werden – vergleichbar mit dem Effekt von Regenwasser.",
+                                    "origins": [
+                                        {
+                                            "name": "hugo",
+                                            "identifier": "2176439466"
+                                        }
+                                    ],
+                                    "crop": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "width": 1470,
+                                        "height": 924
+                                    },
+                                    "imageService": "imgix",
+                                    "url": "https://chm-images-prd.forward-publishing.io/2026/07/07/5544ad85-86ff-4232-a5f0-fbc5348c48c0.jpg?rect=0%2C0%2C1470%2C924&w=1024&auto=format&s=dc51f4659c2a09a154488484f7a86083"
+                                },
+                                "caption": "Ende Juni hat die St.Galler Feuerwehr zum wiederholten Mal Hunderte tote Fische aus dem Nestweiher geholt.",
+                                "author": "Bild: BRK News"
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2h0",
+                            "content": {
+                                "title": "Es gibt in mehreren Kantonen Badeverbote in Bächen und Flüssen. Warum?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2h1",
+                            "content": {
+                                "text": "Badende suchen oft just jene Orte auf, die den Fischen als Rückzugsorte dienen. In kleinen Bächen und Flüssen liegen diese oft in tiefen Pools. In grösseren Flüssen wie der Aare&nbsp; vor allem bei Bacheinmündungen, bei kühlen Zuflüssen aus dem Grundwasser sowie an ruhigen Stellen. Werden diese wenigen Rückzugsräume durch Badende, Hunde oder andere Freizeitaktivitäten gestört, bedeutet das zusätzlichen Stress für Tiere."
+                            },
+                            "data": {
+                                "_textDirective": {
+                                    "highlightedTextRanges": {
+                                        "EPU0L6lrTTdV": {
+                                            "start": 79,
+                                            "end": 231,
+                                            "text": "hle Rückzugsorte für Fische und andere Wasserlebewesen sind bei Hitze überlebenswichtig. In kleinen Bächen und Flüssen liegen diese oft in tiefen Pools,"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsuigq7q0",
+                            "content": {
+                                "title": "Manchmal werden Fische abgefischt und umgesiedelt. Bringt das etwas?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsuihkbq0",
+                            "content": {
+                                "text": "«Solche Rettungsaktionen stossen leider zunehmend an ihre Grenzen», sagt Alexander Roschi vom Schweizerischen Fischerei-Verband. Aktuell stelle sich immer häufiger die Frage, wohin die vermeintlich geretteten Fische überhaupt gebracht werden sollen. Es nützt nichts, sie in das nächste Gewässer umzusiedeln, wenn dieses ebenfalls zu warm ist. Umsiedlungen können aber in einer akuten Notsituation Leben retten, wenn sie früh genug durchgeführt werden. Sie lösen aber die eigentlichen Ursachen nicht, wenn es nicht genügend Wasser und kühle Rückzugsräume hat."
+                            }
+                        },
+                        {
+                            "component": "subtitle",
+                            "identifier": "p:1:1.subtitle",
+                            "id": "doc-1jsueab2h2",
+                            "content": {
+                                "title": "Wie gefährlich ist das für die Fische, wenn wie im Moment Kühlwasser des AKW in die Aare geleitet?"
+                            }
+                        },
+                        {
+                            "component": "paragraph",
+                            "identifier": "p:1:1.paragraph",
+                            "id": "doc-1jsueab2h3",
+                            "content": {
+                                "text": "Die Hitzewelle bringt Schweizer AKW wegen ihres Kühlwassers unter Druck: Sie leiten erwärmtes Wasser zurück in Flüsse. Gemäss dem «Tages-Anzeiger» hat das Uvek unter Albert Rösti die Regeln für Leibstadt gelockert, sodass auch bei Rhein-Temperaturen über 25 Grad weiter Kühlwasser eingeleitet werden darf. Betreiber und Behörden verweisen auf minimale Erwärmung und notwendige Kühlung. Für den Fischerei-Verband ist klar, dass gerade während Hitzeperioden jeder zusätzliche Wärmeeintrag in die Gewässer verhindert werden müsse. «Wenn Fische unter Hitzestress leiden, verschärft zusätzlich erwärmtes Kühlwasser die Situation massiv»,  sagt Roschi."
+                            }
+                        },
+                        {
+                            "component": "article-list",
+                            "identifier": "p:1:1.article-list",
+                            "id": "doc-hMY1FxX9Ih",
+                            "content": {
+                                "title": "Mehr zum Thema",
+                                "link": {
+                                    "service": "curated-list-link",
+                                    "params": {}
+                                }
+                            },
+                            "containers": {
+                                "teasers": [
+                                    {
+                                        "component": "article-teaser",
+                                        "identifier": "p:1:1.article-teaser",
+                                        "id": "doc-oXx2g4brSJ",
+                                        "content": {
+                                            "teaser": {
+                                                "service": "article-teaser-service",
+                                                "params": {
+                                                    "layout": "teaser",
+                                                    "article": {
+                                                        "$ref": "document",
+                                                        "reference": {
+                                                            "id": "4188626"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "component": "article-teaser",
+                                        "identifier": "p:1:1.article-teaser",
+                                        "id": "doc-5YNESN3DDs",
+                                        "content": {
+                                            "teaser": {
+                                                "service": "article-teaser-service",
+                                                "params": {
+                                                    "layout": "teaser",
+                                                    "article": {
+                                                        "$ref": "document",
+                                                        "reference": {
+                                                            "id": "4198285"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "component": "article-teaser",
+                                        "identifier": "p:1:1.article-teaser",
+                                        "id": "doc-KopNbNNOEZ",
+                                        "content": {
+                                            "teaser": {
+                                                "service": "article-teaser-service",
+                                                "params": {
+                                                    "layout": "teaser"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "references": [
+            {
+                "id": "994880",
+                "type": "document",
+                "location": "include-directive",
+                "componentId": "doc-oDePjTZRMw",
+                "serviceName": "author-service",
+                "propertyName": "article",
+                "componentName": "teaser-author",
+                "directiveName": "teaser"
+            },
+            {
+                "id": "2597454",
+                "type": "document",
+                "location": "include-directive",
+                "componentId": "doc-1jsuj0gff0",
+                "serviceName": "author-service",
+                "propertyName": "article",
+                "componentName": "teaser-author",
+                "directiveName": "teaser"
+            },
+            {
+                "id": "AD1WuLIyxMog",
+                "type": "image",
+                "location": "include-directive-override",
+                "overrideId": "teaser-author-template-2597454",
+                "componentId": "doc-1jsuj0gff0",
+                "serviceName": "author-service",
+                "componentName": "teaser-author",
+                "directiveName": "teaser",
+                "overrideDirectiveName": "image"
+            },
+            {
+                "id": "GJswsFFeSob6",
+                "type": "image",
+                "location": "image-directive",
+                "componentId": "doc-1jsu5s4ea1",
+                "componentName": "image",
+                "directiveName": "image"
+            },
+            {
+                "id": "xR248-g35pRt",
+                "type": "image",
+                "location": "image-directive",
+                "componentId": "doc-1jt0vdcdi1",
+                "componentName": "image",
+                "directiveName": "image"
+            },
+            {
+                "id": "8ChqnxncgQqF",
+                "type": "image",
+                "location": "image-directive",
+                "componentId": "doc-1jt0vfi2i1",
+                "componentName": "image",
+                "directiveName": "image"
+            },
+            {
+                "id": "OS3uKcF1e3X1",
+                "type": "image",
+                "location": "image-directive",
+                "componentId": "doc-1jsu5vnbe1",
+                "componentName": "image",
+                "directiveName": "image"
+            },
+            {
+                "id": "4188626",
+                "type": "document",
+                "location": "include-directive",
+                "componentId": "doc-oXx2g4brSJ",
+                "serviceName": "article-teaser-service",
+                "propertyName": "article",
+                "componentName": "article-teaser",
+                "directiveName": "teaser"
+            },
+            {
+                "id": "4198285",
+                "type": "document",
+                "location": "include-directive",
+                "componentId": "doc-5YNESN3DDs",
+                "serviceName": "article-teaser-service",
+                "propertyName": "article",
+                "componentName": "article-teaser",
+                "directiveName": "teaser"
+            },
+            {
+                "id": "4000477",
+                "type": "document",
+                "location": "metadata",
+                "propertyName": "department"
+            },
+            {
+                "id": "4000481",
+                "type": "document",
+                "location": "metadata",
+                "propertyName": "additionalDepartments"
+            },
+            {
+                "id": "4000447",
+                "type": "document",
+                "location": "metadata",
+                "propertyName": "additionalDepartments"
+            },
+            {
+                "id": "994880",
+                "type": "document",
+                "location": "metadata",
+                "propertyName": "authors"
+            },
+            {
+                "id": "2597454",
+                "type": "document",
+                "location": "metadata",
+                "propertyName": "authors"
+            },
+            {
+                "id": "GJswsFFeSob6",
+                "type": "image",
+                "location": "metadata",
+                "propertyName": "teaserImage"
+            }
+        ]
+    }
+]
