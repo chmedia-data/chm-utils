@@ -6,10 +6,13 @@ from chm_utils.sls import resolve_ssm_params
 snowflake_params = {
     'SNOWFLAKE_WAREHOUSE': 'compute_wh',
     'SNOWFLAKE_ROLE': 'chm_developer',
-    'SNOWFLAKE_PWD': os.environ['SNOWFLAKE_PWD'],
-    'SNOWFLAKE_USER': os.environ['SNOWFLAKE_USER'],
     'SNOWFLAKE_AUTHENTICATOR': 'username_password_mfa'
 }
+# a key-based local setup has no password in the environment, so pick these up
+# optionally and skip the password test instead of failing collection
+for key in ('SNOWFLAKE_PWD','SNOWFLAKE_USER'):
+    if os.environ.get(key):
+        snowflake_params[key] = os.environ[key]
 ssm_params = [{
     'ssm_path': '/snowflake/chmd_account_id',
     'key': 'SNOWFLAKE_ACCOUNT'
@@ -76,10 +79,40 @@ def test_pw_mfa_credential(snowflake_env_pw):
     if os.environ.get('SKIP_PW_MFA_CREDENTIAL_TEST','').lower()=='true':
         return
 
+    if 'SNOWFLAKE_PWD' not in snowflake_params:
+        pytest.skip('no SNOWFLAKE_PWD in environment')
+
     assert 'SNOWFLAKE_PWD' in get_snowflake_env()
     from chm_utils.clients import Snowflake
     snowflake = Snowflake()
     snowflake.execute('select current_date')
+
+
+def test_pk_path_credential(snowflake_env_pk, tmp_path):
+
+    key_path = tmp_path / 'private_key.pem'
+    key_path.write_text(os.environ.pop('SNOWFLAKE_PRIVATE_KEY'))
+    os.environ['SNOWFLAKE_PRIVATE_KEY_PATH'] = str(key_path)
+
+    from chm_utils.clients import Snowflake
+    snowflake = Snowflake()
+    snowflake.execute('select current_date')
+
+
+def test_empty_pk_path_credential(snowflake_env_missing):
+
+    os.environ['SNOWFLAKE_PRIVATE_KEY_PATH'] = ''
+
+    error = None
+    try:
+        from chm_utils.clients import Snowflake
+        Snowflake()
+        pytest.fail('no exception thrown')
+    except EnvironmentError as e:
+        error = e
+
+    assert isinstance(error,EnvironmentError)
+    assert 'credentials' in str(error)
 
 
 def test_missing_credential(snowflake_env_missing):
