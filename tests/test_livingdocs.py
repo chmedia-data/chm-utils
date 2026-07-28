@@ -82,6 +82,27 @@ class TestComponents:
 
         assert md.index('**Kicker**') < md.index('# Titel') < md.index('*Lead*')
 
+    def test_header_precedes_body_whatever_the_container_order(self):
+        # `document` builds the article-container with `main` before `header`;
+        # container names, not mapping order, must decide what comes first
+        doc = document(
+            [component('paragraph', {'text': 'Fliesstext.'})],
+            header=[component('header', {'title': 'Titel'})],
+        )
+        md = publication_to_markdown(doc)
+
+        assert md.index('# Titel') < md.index('Fliesstext.')
+
+    def test_header_survives_truncation_of_a_long_body(self):
+        doc = document(
+            [component('paragraph', {'text': 'Fülltext. ' * 200}) for _ in range(20)],
+            header=[component('header', {'label': 'Kicker', 'title': 'Titel', 'lead': 'Lead'})],
+        )
+        md = publication_to_markdown(doc)
+
+        assert md.startswith('**Kicker**')
+        assert '# Titel' in md and '*Lead*' in md
+
     def test_nested_containers_are_rendered(self):
         doc = document([
             component('infobox', {'title': 'Zur Person'}, containers={
@@ -117,6 +138,55 @@ class TestComponents:
         assert '**Punkte**' in md
         assert '- Eins' in md
         assert '- Zwei' in md
+
+    def test_numeric_list_items_are_numbered(self):
+        doc = document([
+            component('numeric-list', containers={
+                'list': [
+                    component('list-item', {'text': 'Eins'}),
+                    component('list-item', {'text': 'Zwei'}),
+                ],
+            }),
+        ])
+        md = publication_to_markdown(doc)
+
+        assert '1. Eins' in md
+        assert '2. Zwei' in md
+
+    def test_nested_list_is_indented_not_flattened(self):
+        # ld_ticker_event nests a titled list inside a list; every line of it
+        # used to be reissued as a top-level bullet of the outer list
+        doc = document([
+            component('list', containers={
+                'list': [
+                    component('list-item', {'text': 'Aussen'}),
+                    component('list', {'title': 'Extrazug'}, containers={
+                        'list': [component('list-item', {'text': 'Innen'})],
+                    }),
+                ],
+            }),
+        ])
+        md = publication_to_markdown(doc)
+
+        assert '- Aussen' in md
+        assert '  **Extrazug**' in md
+        assert '  - Innen' in md
+
+    def test_nested_list_under_an_item_aligns_with_its_text(self):
+        doc = document([
+            component('numeric-list', containers={
+                'list': [
+                    component('list-item', {'text': 'Schritt'}, containers={
+                        'list': [component('list-item', {'text': 'Detail'})],
+                    }),
+                ],
+            }),
+        ])
+        md = publication_to_markdown(doc)
+
+        assert '1. Schritt' in md
+        # three spaces: the width of '1. ', so the sub-item nests under it
+        assert '   Detail' in md
 
     @pytest.mark.parametrize('name,content', [
         ('article-teaser', {'teaser': {'title': 'Anderer Artikel'}}),

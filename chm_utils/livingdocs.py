@@ -104,6 +104,17 @@ _CONTAINER_ONLY = {"highlighted-post", "gallery-container", "infobox-snippet-con
 
 _HEADER_COMPONENTS = ("header", "head", "headerLongform", "newsletter-name")
 
+# Container names that carry the article's header/footer rather than its body,
+# used to order a component's containers by meaning instead of mapping order.
+_HEADER_CONTAINERS = {"header", "head", "title"}
+_FOOTER_CONTAINERS = {"footer"}
+
+# List components, and the marker each renders its items with.
+_LIST_MARKERS = {"list": "-", "numeric-list": "1."}
+
+# Indent one nesting level of a list that has no parent item to align under.
+_LIST_INDENT = "  "
+
 # Header-style components: ordered directives with their own formatting.
 _HEADER_FORMATS = (
     ("label", "**{}**"),
@@ -157,22 +168,72 @@ def _text(value):
     return None
 
 
+def _container_rank(name):
+    """Sort key putting a component's containers in reading order.
+
+    Payloads normally store `header` before `main`, but that is mapping order,
+    not a guarantee — and the header carries the title, kicker and lead, the
+    strongest retrieval signals and the ones a length cap must never be the
+    thing to drop. Containers of equal rank keep their mapping order.
+    """
+    if name in _HEADER_CONTAINERS:
+        return 0
+    if name in _FOOTER_CONTAINERS:
+        return 2
+    return 1
+
+
 def _children(comp):
-    for children in (comp.get("containers") or {}).values():
-        for child in children or []:
-            yield child
+    containers = comp.get("containers") or {}
+    for name in sorted(containers, key=_container_rank):
+        for child in containers[name] or []:
+            if isinstance(child, dict):
+                yield child
 
 
-def _list_lines(comp, marker, include_images):
-    """`list` / `numeric-list`: optional title, then list-item children."""
+def _list_lines(comp, marker, include_images, indent=""):
+    """`list` / `numeric-list`: optional title, then list-item children.
+
+    Lists nest — a sub-list is a child of either the list or one of its items —
+    and the indent carries that depth into the markdown.
+    """
     lines = []
     title = _text((comp.get("content") or {}).get("title"))
     if title:
-        lines.append(f"**{title}**")
-    for n, child in enumerate(_children(comp), start=1):
-        for text in _component_lines(child, include_images):
-            bullet = marker if marker != "1." else f"{n}."
-            lines.append(f"{bullet} {text.lstrip('- ')}" if text else text)
+        lines.append(f"{indent}**{title}**")
+    number = 0
+    for child in _children(comp):
+        nested = _LIST_MARKERS.get(child.get("component") or "")
+        if nested:
+            # a list nested straight inside a list, without an item of its own
+            lines.extend(
+                _list_lines(child, nested, include_images, indent + _LIST_INDENT)
+            )
+            continue
+        number += 1
+        bullet = f"{number}." if marker == "1." else marker
+        lines.extend(_list_item_lines(child, bullet, indent, include_images))
+    return lines
+
+
+def _list_item_lines(item, bullet, indent, include_images):
+    """One list item: its own text carries the marker, anything nested inside it
+    is indented underneath it. Prefixing every line a child produced with the
+    marker would flatten a sub-list into siblings of its parent item and lose
+    the hierarchy the source document has."""
+    inner = indent + " " * (len(bullet) + 1)  # align with the item's own text
+    lines = []
+    # the item's own directives only; its children are placed below, indented
+    for text in _component_lines({**item, "containers": {}}, include_images):
+        lines.append(f"{indent}{bullet} {text}" if not lines else f"{inner}{text}")
+    for child in _children(item):
+        nested = _LIST_MARKERS.get(child.get("component") or "")
+        if nested:
+            lines.extend(_list_lines(child, nested, include_images, inner))
+        else:
+            lines.extend(
+                f"{inner}{text}" for text in _component_lines(child, include_images)
+            )
     return lines
 
 
@@ -242,11 +303,8 @@ def _component_lines(comp, include_images=False):
     if name in _TICKER_POSTS:
         return _ticker_post_lines(comp, include_images)
 
-    if name == "list":
-        return _list_lines(comp, "-", include_images)
-
-    if name == "numeric-list":
-        return _list_lines(comp, "1.", include_images)
+    if name in _LIST_MARKERS:
+        return _list_lines(comp, _LIST_MARKERS[name], include_images)
 
     if name in _MEDIA:
         return _media_lines(comp, include_images)
