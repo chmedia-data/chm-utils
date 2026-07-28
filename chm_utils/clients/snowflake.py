@@ -19,8 +19,8 @@ class Snowflake:
         if not ARE_DEPS_AVAILABLE:
             raise ImportError("required packages are not available: `pip install chm_utils[snowflake]`")
         
-        has_pw = not os.environ.get("SNOWFLAKE_PWD") is None
-        has_pk = not os.environ.get("SNOWFLAKE_PRIVATE_KEY") is None
+        has_pw = bool(os.environ.get("SNOWFLAKE_PWD"))
+        has_pk = bool(os.environ.get("SNOWFLAKE_PRIVATE_KEY")) or bool(os.environ.get("SNOWFLAKE_PRIVATE_KEY_PATH"))
         if not has_pk and not has_pw:
             raise EnvironmentError("no snowflake credentials found in environment")
         
@@ -44,14 +44,20 @@ class Snowflake:
                     authenticator = os.environ.get("SNOWFLAKE_AUTHENTICATOR")
                 )
 
-            elif os.environ.get('SNOWFLAKE_PRIVATE_KEY'):
+            elif os.environ.get('SNOWFLAKE_PRIVATE_KEY') or os.environ.get('SNOWFLAKE_PRIVATE_KEY_PATH'):
                 __logger__.debug(f'snowflake connect with pk')
                 private_key_pwd = os.environ.get('SNOWFLAKE_PRIVATE_KEY_PWD')
+                if os.environ.get('SNOWFLAKE_PRIVATE_KEY'):
+                    pem = os.environ['SNOWFLAKE_PRIVATE_KEY'].encode()
+                else:
+                    key_path = os.path.expanduser(os.environ['SNOWFLAKE_PRIVATE_KEY_PATH'])
+                    with open(key_path, 'rb') as f:
+                        pem = f.read()
                 self.db = snowflake.connector.connect(
                     account = os.environ.get("SNOWFLAKE_ACCOUNT"),
                     user = os.environ.get("SNOWFLAKE_USER"),
                     private_key = load_pem_private_key(
-                        os.environ['SNOWFLAKE_PRIVATE_KEY'].encode(), 
+                        pem,
                         password = private_key_pwd.encode() if private_key_pwd else None
                     ),
                     role = os.environ.get("SNOWFLAKE_ROLE"),
