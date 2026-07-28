@@ -3,7 +3,7 @@ import json
 import pytest
 
 from chm_utils import livingdocs
-from chm_utils.livingdocs import header_text, is_ticker, publication_to_markdown
+from chm_utils.livingdocs import header_text, is_ticker, publication_to_markdown, teaser_text
 
 
 def load_fixture(name):
@@ -263,6 +263,36 @@ class TestHeaderText:
 
     def test_returns_none_without_any_title(self):
         assert header_text(document([])) is None
+
+
+class TestTeaserText:
+
+    def test_label_and_title_from_metadata(self):
+        doc = document(
+            [component('paragraph', {'text': 'Text.'})],
+            metadata={'teaserLabel': 'Analyse', 'title': 'Der Titel'},
+        )
+        assert teaser_text(doc) == 'Analyse\nDer Titel'
+
+    def test_ignores_the_header_component(self):
+        # The whole point: a teaser shows metadata, not the article's header.
+        doc = document(
+            [], header=[component('header', {'label': 'Kicker', 'title': 'Header-Titel'})],
+            metadata={'teaserLabel': 'Teaser-Label', 'title': 'Teaser-Titel'},
+        )
+        assert teaser_text(doc) == 'Teaser-Label\nTeaser-Titel'
+
+    def test_cleans_entities_and_nbsp(self):
+        # Metadata carries raw entities; without cleaning these reach the embedding.
+        doc = document([], metadata={'teaserLabel': 'Abo+&nbsp;Wanderung', 'title': 'T'})
+        assert teaser_text(doc) == 'Abo+ Wanderung\nT'
+
+    def test_title_only_when_label_missing(self):
+        doc = document([], metadata={'title': 'Nur der Titel'})
+        assert teaser_text(doc) == 'Nur der Titel'
+
+    def test_returns_none_without_metadata(self):
+        assert teaser_text(document([])) is None
 
 
 class TestTickerDetection:
