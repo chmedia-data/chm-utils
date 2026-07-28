@@ -103,6 +103,19 @@ class TestComponents:
         assert md.startswith('**Kicker**')
         assert '# Titel' in md and '*Lead*' in md
 
+    def test_gallery_head_renders_as_the_document_title(self):
+        doc = {
+            'content': [component('asset-content', containers={
+                'header': [component('asset-head-gallery', {'title': 'Bilder vom Umzug'})],
+                'main': [component('asset-image', {'caption': 'Die Guggenmusig', 'author': 'K. Nars'})],
+            })],
+            'metadata': {'title': 'Bilder vom Umzug'},
+        }
+        md = publication_to_markdown(doc)
+
+        assert md.count('Bilder vom Umzug') == 1
+        assert md.startswith('# Bilder vom Umzug')
+
     def test_nested_containers_are_rendered(self):
         doc = document([
             component('infobox', {'title': 'Zur Person'}, containers={

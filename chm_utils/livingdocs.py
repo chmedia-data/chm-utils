@@ -49,7 +49,6 @@ _HEADINGS = {
     "subtitle": "##",
     "newsletter-subtitle": "##",
     "newsletter-chaptertitle": "##",
-    "asset-head-gallery": "##",
     "infobox": "###",
 }
 
@@ -102,7 +101,7 @@ _SKIP = {
 # empty or purely presentational).
 _CONTAINER_ONLY = {"highlighted-post", "gallery-container", "infobox-snippet-container"}
 
-_HEADER_COMPONENTS = ("header", "head", "headerLongform", "newsletter-name")
+_HEADER_COMPONENTS = ("header", "head", "headerLongform", "newsletter-name", "asset-head-gallery")
 
 # Container names that carry the article's header/footer rather than its body,
 # used to order a component's containers by meaning instead of mapping order.
