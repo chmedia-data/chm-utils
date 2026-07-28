@@ -13,7 +13,7 @@ components. A "document" here is any mapping with `content`, and optionally
 `metadata`, `systemdata` and `custom` — the shape of both the collector's
 webhook payload and a row of `chm_core_prod.content.articles_v2`.
 
-    from chm_utils.livingdocs import publication_to_markdown, header_text, is_ticker
+    from chm_utils.livingdocs import publication_to_markdown, teaser_text, is_ticker
 
     markdown = publication_to_markdown(document)              # capped for embedding
     full     = publication_to_markdown(document, max_chars=None)
@@ -356,12 +356,31 @@ def _iter_components(components):
         yield from _iter_components(list(_children(comp)))
 
 
+def teaser_text(document, join_char="\n"):
+    """Teaser label plus title, from metadata only — what a teaser displays.
+
+    Livingdocs renders a teaser from metadata (`teaserLabel`, `title`); the
+    article's `header` component is article-page furniture that no teaser shows.
+    A consumer matching on "what the teaser says" wants this rather than
+    `header_text`.
+
+    On web articles the two agree in ~96% of cases and each covers ~98%, so the
+    choice is about semantics, not coverage. The cleaning is not optional
+    though: metadata carries raw entities and non-breaking spaces, so without it
+    `Abo+&nbsp;Wanderung` would reach an embedding verbatim.
+    """
+    metadata = document.get("metadata") or {}
+    parts = [_text(metadata.get("teaserLabel")), _text(metadata.get("title"))]
+    parts = [p for p in parts if p]
+    return join_char.join(parts) if parts else None
+
+
 def header_text(document, join_char="\n"):
     """Kicker/catchline plus title — the short 'what is this about' signal.
 
     The kicker lives in `label` on a `header` component and in `catchline` on
-    `headerLongform`; both are taken when present. Falls back to the teaser
-    label and title in metadata for payloads without a header component.
+    `headerLongform`; both are taken when present. Falls back to `teaser_text`
+    for payloads without a header component.
     """
     for comp in _iter_components(_root_components(document)):
         if (comp.get("component") or "") not in _HEADER_COMPONENTS:
@@ -372,10 +391,7 @@ def header_text(document, join_char="\n"):
         if parts:
             return join_char.join(parts)
 
-    metadata = document.get("metadata") or {}
-    parts = [_text(metadata.get("teaserLabel")), _text(metadata.get("title"))]
-    parts = [p for p in parts if p]
-    return join_char.join(parts) if parts else None
+    return teaser_text(document, join_char)
 
 
 def _root_components(document):
