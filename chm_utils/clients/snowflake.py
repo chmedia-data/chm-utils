@@ -19,8 +19,8 @@ class Snowflake:
         if not ARE_DEPS_AVAILABLE:
             raise ImportError("required packages are not available: `pip install chm_utils[snowflake]`")
         
-        has_pw = not os.environ.get("SNOWFLAKE_PWD") is None
-        has_pk = not os.environ.get("SNOWFLAKE_PRIVATE_KEY") is None or not os.environ.get("SNOWFLAKE_PRIVATE_KEY_PATH") is None
+        has_pw = bool(os.environ.get("SNOWFLAKE_PWD"))
+        has_pk = bool(os.environ.get("SNOWFLAKE_PRIVATE_KEY")) or bool(os.environ.get("SNOWFLAKE_PRIVATE_KEY_PATH"))
         if not has_pk and not has_pw:
             raise EnvironmentError("no snowflake credentials found in environment")
         
