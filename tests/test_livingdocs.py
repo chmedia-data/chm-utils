@@ -331,6 +331,13 @@ class TestTickerDetection:
         )
         assert not is_ticker(doc)
 
+    def test_null_teaser_label(self):
+        assert not is_ticker(document([], metadata={'teaserLabel': None}))
+
+    def test_catchline_in_metadata_is_not_a_signal(self):
+        # the kicker is teaserLabel; catchline is a header *component* field
+        assert not is_ticker(document([], metadata={'catchline': 'Liveticker'}))
+
 
 class TestTruncation:
 
