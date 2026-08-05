@@ -1,9 +1,11 @@
 [project]
 name = "chm_utils"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
   "boto3",
-  "PyYAML"
+  "PyYAML",
+  # imported by chm_utils.logging, which __init__ imports — needed for any import
+  "requests"
 ]
 requires-python = ">=3.9"
 authors = [
@@ -15,12 +17,17 @@ readme = "readme.md"
 [project.optional-dependencies]
 snowflake = [
   "snowflake-connector-python[pandas]>=3.15.0",
+  # imported by clients.snowflake for private key auth; so far only present
+  # because snowflake-connector-python happens to pull it in
+  "cryptography",
 ]
 redis = [
   "redis"
 ]
 auth = [
-  "dash>=2.7.0"
+  "dash>=2.7.0",
+  # imported by ext.auth; so far only present because dash pulls it in
+  "flask",
 ]
 
 [project.scripts]
