@@ -55,6 +55,24 @@ boundary, and for live tickers — which average ~57k characters and reach 300k 
 keeps the header plus the newest `MAX_TICKER_POSTS` (5) posts. Pass
 `max_chars=None` / `max_ticker_posts=None` to render the whole document.
 
+### Feed Config Resolution
+Resolves a feed config into the concrete config for one `portal:variant`. Pure
+functions, standard library only. Shared so that the consumers which validate
+these configs and the ones which apply them resolve them identically.
+
+```python
+from chm_utils.feed_configs import get_portal_variant_configs
+
+configs = get_portal_variant_configs(feed_config, portals=['p1'])
+# {'p1:variant_a': {...}, 'p1:default': {...}}
+```
+
+Two layers: `$portals`/`$variants` dicts collapse to the value matching the
+portal or variant (exact match, then longest fnmatch pattern, then `default`),
+then the variation's `overrides` are applied by dot-path on top. Overrides are
+read from each entry of a `variants` array, and from the variation itself keyed
+by its `variant_id` for variations that assign a single variant.
+
 ## Clients
 ### Snowflake
 A small snowflake wrapper using common environment variables as connection settings and frequently used SQL to pandas DataFrame helper function `get_query_df`:
