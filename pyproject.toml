@@ -1,6 +1,6 @@
 [project]
 name = "chm_utils"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
   "boto3",
   "PyYAML"

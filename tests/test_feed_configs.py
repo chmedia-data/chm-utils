@@ -99,12 +99,12 @@ def test_portal_variants_without_variations():
 
 
 def test_single_variant_variation_covers_portals_the_experiment_excludes():
-    """A portal outside the experiment's portals still gets the segment's variant."""
+    """A portal outside the experiment's portals still gets the cohort's variant."""
     config = {'variations': [
-        {"type": "experiment", "id": "exp-1", "conditions": ["Cond.A"],
+        {"type": "experiment", "id": "exp-1", "cohort": "subs",
          "portals": ["p2", "p3"],
          "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
-        {"type": "segmentation", "id": "seg-1", "conditions": ["Cond.A"], "variant_id": "a_2"},
+        {"type": "segmentation", "id": "seg-1", "cohort": "subs", "variant_id": "a_2"},
         {"type": "default", "variant_id": "default"},
     ]}
 
@@ -114,14 +114,14 @@ def test_single_variant_variation_covers_portals_the_experiment_excludes():
     assert 'p1:a_1' not in variants
 
 
-def test_exhausted_segment_drops_later_variations():
-    """Two 50% experiment variants fill the segment, so the segmentation is dropped."""
+def test_exhausted_cohort_drops_later_variations():
+    """Two 50% experiment variants fill the cohort, so the segmentation is dropped."""
     config = {'variations': [
-        {"variation_type": "experiment", "experiment_id": "exp-1", "conditions": ["Cond.A"],
+        {"variation_type": "experiment", "experiment_id": "exp-1", "cohort": "subs",
          "portals": ["p2", "p3"], "percent": 50, "variant_id": "a_1"},
-        {"variation_type": "experiment", "experiment_id": "exp-1", "conditions": ["Cond.A"],
+        {"variation_type": "experiment", "experiment_id": "exp-1", "cohort": "subs",
          "portals": ["p2", "p3"], "percent": 50, "variant_id": "a_2"},
-        {"variation_type": "segmentation", "conditions": ["Cond.A"], "variant_id": "a_3"},
+        {"variation_type": "segmentation", "cohort": "subs", "variant_id": "a_3"},
         {"variation_type": "default", "variant_id": "default"},
     ]}
 
@@ -131,14 +131,14 @@ def test_exhausted_segment_drops_later_variations():
     assert 'p3:a_3' not in variants
 
 
-def test_segment_allocation_is_order_dependent():
-    """A 100% variation first exhausts the segment for every portal it covers."""
+def test_cohort_allocation_is_order_dependent():
+    """A 100% variation first exhausts the cohort for every portal it covers."""
     config = {'variations': [
-        {"variation_type": "experiment", "experiment_id": "exp-2", "conditions": ["Cond.A"],
+        {"variation_type": "experiment", "experiment_id": "exp-2", "cohort": "subs",
          "percent": 100, "variant_id": "a_3"},
-        {"variation_type": "experiment", "experiment_id": "exp-1", "conditions": ["Cond.A"],
+        {"variation_type": "experiment", "experiment_id": "exp-1", "cohort": "subs",
          "portals": ["p2", "p3"], "percent": 50, "variant_id": "a_1"},
-        {"variation_type": "experiment", "experiment_id": "exp-1", "conditions": ["Cond.A"],
+        {"variation_type": "experiment", "experiment_id": "exp-1", "cohort": "subs",
          "portals": ["p2", "p3"], "percent": 50, "variant_id": "a_2"},
         {"variation_type": "default", "variant_id": "default"},
     ]}
@@ -147,6 +147,20 @@ def test_segment_allocation_is_order_dependent():
 
     assert 'p3:a_3' in variants
     assert 'p2:a_1' not in variants
+
+
+def test_cohorts_have_independent_allocation():
+    """A full experiment in one cohort leaves another cohort's variations intact."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "subs",
+         "variants": [{"id": "subs_a", "percent": 50}, {"id": "subs_b", "percent": 50}]},
+        {"type": "experiment", "id": "exp-2", "cohort": "nonsubs",
+         "variants": [{"id": "nonsubs_a", "percent": 50}, {"id": "nonsubs_b", "percent": 50}]},
+    ]}
+
+    variants = get_portal_variant_ids(config, ['p1'])
+
+    assert sorted(variants) == ['p1:nonsubs_a', 'p1:nonsubs_b', 'p1:subs_a', 'p1:subs_b']
 
 
 def test_portal_outside_any_variation_gets_default():
@@ -261,7 +275,7 @@ def single_variant_config(overrides):
     return {
         "portals": ["p1"],
         "variations": [
-            {"type": "segmentation", "variant_id": "a_1", "conditions": ["Cond.A"],
+            {"type": "segmentation", "variant_id": "a_1", "cohort": "subs",
              "overrides": overrides},
             {"type": "default", "variant_id": "default"},
         ],
@@ -331,7 +345,7 @@ def test_overrides_apply_after_variables_are_resolved():
     config = {
         "portals": ["p1"],
         "variations": [
-            {"type": "segmentation", "variant_id": "a_1", "conditions": ["Cond.A"],
+            {"type": "segmentation", "variant_id": "a_1", "cohort": "subs",
              "overrides": [{"path": "subfeeds.main.scoring.params.scaling", "value": 0.9}]},
             {"type": "default", "variant_id": "default"},
         ],

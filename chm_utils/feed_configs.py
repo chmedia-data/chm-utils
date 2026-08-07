@@ -102,9 +102,9 @@ def resolve_variables(obj, portal, variant_id="default", root=None):
 def get_portal_variant_ids(config, portals):
     """List the `portal:variant_id` combinations a config resolves to.
 
-    Variations are grouped into segments by their `conditions`; within a
-    segment, experiment variations consume their `percent` and any other type
-    exhausts the segment (it assigns a single variant unconditionally).
+    Variations are grouped by their `cohort`; within a cohort, experiment
+    variations consume their `percent` and any other type exhausts the cohort
+    (it assigns a single variant unconditionally).
     Variations naming `portals` only apply to those portals; a portal left
     without any variant falls back to `default`.
 
@@ -127,7 +127,7 @@ def get_portal_variant_ids(config, portals):
                     'variation_type': v['type'],
                     'variant_id': variant_config['id'],
                     'percent': variant_config['percent'],
-                    'segment': '|'.join(sorted(v.get('conditions', [])))
+                    'cohort': v.get('cohort', '')
                 }
                 if 'portals' in v:
                     flattened_var['portals'] = v['portals']
@@ -136,7 +136,7 @@ def get_portal_variant_ids(config, portals):
             flattened_var = {
                 'variation_type': v.get('type', v.get('variation_type')),
                 'variant_id': v['variant_id'],
-                'segment': '|'.join(sorted(v.get('conditions', [])))
+                'cohort': v.get('cohort', '')
             }
             if 'percent' in v:
                 flattened_var['percent'] = v['percent']
@@ -146,22 +146,22 @@ def get_portal_variant_ids(config, portals):
 
     variations = flattened_variations
 
-    segments = list(set([i['segment'] for i in variations]))
+    cohorts = list(set([i['cohort'] for i in variations]))
 
     for portal in portals:
-        segment_percs = {i: 0 for i in segments}
+        cohort_percs = {i: 0 for i in cohorts}
         portal_has_variant = False
         for variation in variations:
             is_portal_in_variation = not "portals" in variation or portal in variation.get('portals', [])
-            is_segment_exhausted = segment_percs[variation['segment']] > 99
-            is_required = is_portal_in_variation and not is_segment_exhausted
+            is_cohort_exhausted = cohort_percs[variation['cohort']] > 99
+            is_required = is_portal_in_variation and not is_cohort_exhausted
             if is_required:
                 portal_variants.append(f'{portal}:{variation["variant_id"]}')
                 portal_has_variant = True
                 if variation["variation_type"] == "experiment":
-                    segment_percs[variation['segment']] += variation['percent']
+                    cohort_percs[variation['cohort']] += variation['percent']
                 else:
-                    segment_percs[variation['segment']] = 100
+                    cohort_percs[variation['cohort']] = 100
 
         if not portal_has_variant:
             portal_variants.append(f'{portal}:default')
