@@ -163,6 +163,61 @@ def test_cohorts_have_independent_allocation():
     assert sorted(variants) == ['p1:nonsubs_a', 'p1:nonsubs_b', 'p1:subs_a', 'p1:subs_b']
 
 
+def test_missing_cohort_shares_the_all_pool():
+    """An unlabelled variation targets everyone, so `all` exhausts it."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "all",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "id": "seg-1", "variant_id": "a_3"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2']
+
+
+def test_empty_cohort_is_exhausted_by_an_all_variation():
+    """The reverse order: a full `all` experiment drops the unlabelled variation."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "id": "seg-1", "cohort": "all", "variant_id": "a_3"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2']
+
+
+def test_two_missing_cohort_variations_share_a_pool():
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "id": "seg-1", "variant_id": "a_3"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2']
+
+
+def test_missing_cohort_leaves_a_labelled_cohort_intact():
+    """Normalising to `all` must not merge unlabelled variations into named cohorts."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "id": "seg-1", "cohort": "subs", "variant_id": "subs_a"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2', 'p1:subs_a']
+
+
+def test_legacy_conditions_do_not_split_the_all_pool():
+    """`conditions` is dead; a variation carrying only it still lands in `all`."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "all",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "id": "seg-1", "conditions": "user.is_subscriber",
+         "variant_id": "a_3"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2']
+
+
 def test_portal_outside_any_variation_gets_default():
     config = {
         'variations': [

@@ -28,6 +28,8 @@ import re
 
 VARIABLE_KEYS = ["$variants", "$portals"]
 
+ALL_COHORT = "all"
+
 
 def find_resolve_key(obj, variable_key, portal, variant_id):
     """Return the key of a `$variants`/`$portals` dict to resolve against.
@@ -99,17 +101,32 @@ def resolve_variables(obj, portal, variant_id="default", root=None):
         return obj
 
 
+def normalise_cohort(variation):
+    """Return the cohort a variation competes in.
+
+    A missing or empty `cohort` means the whole audience, so it normalises to
+    `all` — the same pool an explicit `cohort: all` lands in. The api resolving
+    these configs treats an empty cohort as matching everyone, so the two have
+    to share one allocation pool here too.
+    """
+    return (variation.get('cohort') or '').strip() or ALL_COHORT
+
+
 def get_portal_variant_ids(config, portals):
     """List the `portal:variant_id` combinations a config resolves to.
 
     Variations are grouped by their `cohort`; within a cohort, experiment
     variations consume their `percent` and any other type exhausts the cohort
-    (it assigns a single variant unconditionally).
+    (it assigns a single variant unconditionally). A missing or empty `cohort`
+    normalises to `all`, so an unlabelled variation and one labelled `all`
+    compete in the same pool and exhaust each other.
     Variations naming `portals` only apply to those portals; a portal left
     without any variant falls back to `default`.
 
     Supports both the current schema (`type`, plus `variants` for experiments)
-    and the legacy one (`variation_type` with a `variant_id` per object).
+    and the legacy one (`variation_type` with a `variant_id` per object). The
+    audience always comes from `cohort`; legacy `conditions` strings are no
+    longer honoured and a variation carrying only those counts as `all`.
     """
     portal_variants = []
 
@@ -127,7 +144,7 @@ def get_portal_variant_ids(config, portals):
                     'variation_type': v['type'],
                     'variant_id': variant_config['id'],
                     'percent': variant_config['percent'],
-                    'cohort': v.get('cohort', '')
+                    'cohort': normalise_cohort(v)
                 }
                 if 'portals' in v:
                     flattened_var['portals'] = v['portals']
@@ -136,7 +153,7 @@ def get_portal_variant_ids(config, portals):
             flattened_var = {
                 'variation_type': v.get('type', v.get('variation_type')),
                 'variant_id': v['variant_id'],
-                'cohort': v.get('cohort', '')
+                'cohort': normalise_cohort(v)
             }
             if 'percent' in v:
                 flattened_var['percent'] = v['percent']
