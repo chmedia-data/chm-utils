@@ -102,11 +102,15 @@ def resolve_variables(obj, portal, variant_id="default", root=None):
 def get_portal_variant_ids(config, portals):
     """List the `portal:variant_id` combinations a config resolves to.
 
-    Variations are grouped into segments by their `conditions`; within a
-    segment, experiment variations consume their `percent` and any other type
-    exhausts the segment (it assigns a single variant unconditionally).
-    Variations naming `portals` only apply to those portals; a portal left
-    without any variant falls back to `default`.
+    Variations are grouped into segments by their audience: the `cohort`
+    label when declared, otherwise the raw `conditions`. During the
+    migration off conditions (DATA-3355) configs declare both and
+    chm-configs enforces that they agree, so preferring the label keeps the
+    grouping stable while conditions disappear. Within a segment, experiment
+    variations consume their `percent` and any other type exhausts the
+    segment (it assigns a single variant unconditionally). Variations naming
+    `portals` only apply to those portals; a portal left without any variant
+    falls back to `default`.
 
     Supports both the current schema (`type`, plus `variants` for experiments)
     and the legacy one (`variation_type` with a `variant_id` per object).
@@ -119,6 +123,9 @@ def get_portal_variant_ids(config, portals):
     }]
     variations = config.get('variations', default_variations)
 
+    def audience_segment(v):
+        return v.get('cohort') or '|'.join(sorted(v.get('conditions', [])))
+
     flattened_variations = []
     for v in variations:
         if 'variants' in v:
@@ -127,7 +134,7 @@ def get_portal_variant_ids(config, portals):
                     'variation_type': v['type'],
                     'variant_id': variant_config['id'],
                     'percent': variant_config['percent'],
-                    'segment': '|'.join(sorted(v.get('conditions', [])))
+                    'segment': audience_segment(v)
                 }
                 if 'portals' in v:
                     flattened_var['portals'] = v['portals']
@@ -136,7 +143,7 @@ def get_portal_variant_ids(config, portals):
             flattened_var = {
                 'variation_type': v.get('type', v.get('variation_type')),
                 'variant_id': v['variant_id'],
-                'segment': '|'.join(sorted(v.get('conditions', [])))
+                'segment': audience_segment(v)
             }
             if 'percent' in v:
                 flattened_var['percent'] = v['percent']

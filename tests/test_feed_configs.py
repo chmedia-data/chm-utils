@@ -131,6 +131,45 @@ def test_exhausted_segment_drops_later_variations():
     assert 'p3:a_3' not in variants
 
 
+def test_cohort_label_defines_the_segment():
+    """Cohort-only variations segment by their label, not one shared pool.
+
+    With conditions-only grouping every cohort-labeled variation would fall
+    into the same empty-conditions segment: the first 100% experiment would
+    exhaust it and drop every later variation.
+    """
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-subs", "cohort": "subs",
+         "variants": [{"id": "subs_a", "percent": 50}, {"id": "subs_b", "percent": 50}]},
+        {"type": "experiment", "id": "exp-nonsubs", "cohort": "nonsubs",
+         "variants": [{"id": "nonsubs_a", "percent": 50}, {"id": "nonsubs_b", "percent": 50}]},
+        {"type": "default", "cohort": "all", "variant_id": "default"},
+    ]}
+
+    variant_ids = sorted(get_portal_variant_ids(config, ['p1']))
+
+    assert variant_ids == ['p1:default', 'p1:nonsubs_a', 'p1:nonsubs_b', 'p1:subs_a', 'p1:subs_b']
+
+
+def test_cohort_label_wins_over_conditions_for_segmenting():
+    """While configs declare both (DATA-3355 migration), the label groups.
+
+    The two experiments declare the same conditions but different cohorts,
+    so they must not exhaust each other's traffic pool.
+    """
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "subs", "conditions": ["Cond.A"],
+         "variants": [{"id": "a_1", "percent": 100}]},
+        {"type": "experiment", "id": "exp-2", "cohort": "nonsubs", "conditions": ["Cond.A"],
+         "variants": [{"id": "b_1", "percent": 100}]},
+        {"type": "default", "variant_id": "default"},
+    ]}
+
+    variant_ids = sorted(get_portal_variant_ids(config, ['p1']))
+
+    assert variant_ids == ['p1:a_1', 'p1:b_1', 'p1:default']
+
+
 def test_segment_allocation_is_order_dependent():
     """A 100% variation first exhausts the segment for every portal it covers."""
     config = {'variations': [
