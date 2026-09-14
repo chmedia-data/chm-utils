@@ -3,8 +3,11 @@ import pytest
 from chm_utils.feed_configs import (
     get_portal_variant_configs,
     get_portal_variant_ids,
+    get_dict_path,
+    is_reference,
     parse_path,
     resolve_overrides,
+    resolve_references,
     resolve_variables,
 )
 
@@ -347,3 +350,92 @@ def test_overrides_apply_after_variables_are_resolved():
 
     assert configs['p1:a_1']['subfeeds']['main']['scoring']['params'] == {"scaling": 0.9, "metric": "m1"}
     assert configs['p1:default']['subfeeds']['main']['scoring']['params'] == {"scaling": 0.1}
+
+
+# --- schema references -------------------------------------------------------
+
+ORG_FILES = {
+    'configs/org/portals.yml': {'portals': [{'id': 'aaz'}, {'id': 'bz'}]},
+    'configs/org/cohorts.yml': {'cohorts': [{'id': 'subs'}, {'id': 'nonsubs'}]},
+}
+
+
+def test_get_dict_path_maps_over_lists():
+    obj = {'a': [{'b': {'c': 1}}, {'b': {'c': 2}}]}
+
+    assert get_dict_path(obj, 'a.b.c') == [1, 2]
+    assert get_dict_path(obj, 'a') == obj['a']
+
+
+@pytest.mark.parametrize('value', [
+    '$configs/org/portals.yml:portals.id',
+    '$configs/org/portals.yml:portals.id + ["chm"]',
+    '["chm"] + $configs/org/portals.yml:portals.id',
+])
+def test_is_reference(value):
+    assert is_reference(value)
+
+
+@pytest.mark.parametrize('value', [
+    '^[1-9][0-9]*[hd]$',
+    '^[a-zA-Z_][a-zA-Z0-9_]*$',
+    '^a$|^b:c$',
+    '^[a-z]+$',
+    'costs $5: cheap',
+    'plain string',
+    3,
+    None,
+])
+def test_is_not_reference(value):
+    assert not is_reference(value)
+
+
+def test_resolve_references_in_dicts_and_lists():
+    schema = {
+        'properties': {'portal': {'enum': '$configs/org/portals.yml:portals.id'}},
+        'anyOf': [
+            '$configs/org/cohorts.yml:cohorts.id',
+            {'enum': '$configs/org/portals.yml:portals.id + ["chm"]'},
+            'plain string',
+        ],
+    }
+
+    resolved = resolve_references(schema, load=ORG_FILES.__getitem__)
+
+    assert resolved['properties']['portal']['enum'] == ['aaz', 'bz']
+    assert resolved['anyOf'] == [['subs', 'nonsubs'], {'enum': ['aaz', 'bz', 'chm']}, 'plain string']
+
+
+def test_resolve_references_leaves_regex_patterns():
+    def fail_load(path):
+        raise AssertionError(f"should not load {path}")
+
+    schema = {'click_window': {'type': 'string', 'pattern': '^[1-9][0-9]*[hd]$'}}
+
+    assert resolve_references(schema, load=fail_load) == {
+        'click_window': {'type': 'string', 'pattern': '^[1-9][0-9]*[hd]$'}
+    }
+
+
+def test_resolve_references_loads_each_file_once():
+    loaded = []
+
+    def load(path):
+        loaded.append(path)
+        return ORG_FILES[path]
+
+    schema = {
+        'a': '$configs/org/portals.yml:portals.id',
+        'b': '$configs/org/portals.yml:portals.id',
+    }
+    resolve_references(schema, load=load)
+
+    assert loaded == ['configs/org/portals.yml']
+
+
+def test_unresolvable_reference_raises():
+    def missing(path):
+        raise FileNotFoundError(path)
+
+    with pytest.raises(ValueError, match='Schema reference error'):
+        resolve_references({'enum': '$configs/org/nope.yml:nope.id'}, load=missing)

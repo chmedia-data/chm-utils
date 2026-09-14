@@ -73,6 +73,22 @@ then the variation's `overrides` are applied by dot-path on top. Overrides are
 read from each entry of a `variants` array, and from the variation itself keyed
 by its `variant_id` for variations that assign a single variant.
 
+Schemas can reference values owned by another config file instead of listing
+them. `resolve_references` replaces those in place; the caller supplies how a
+file is read, so the same resolution runs against a local checkout or GitHub:
+
+```python
+from chm_utils.feed_configs import resolve_references
+
+schema = {'enum': '$configs/org/portals.yml:portals.id + ["chm"]'}
+resolve_references(schema, load=load_yaml)
+# {'enum': ['aaz', ..., 'chm']}
+```
+
+A reference is `$<file path>:<dot path>`, with lists mapped over along the dot
+path; terms joined by `+` may also be Python literals. Only strings built from
+such terms count, so regex `pattern` values stay untouched.
+
 ## Clients
 ### Snowflake
 A small snowflake wrapper using common environment variables as connection settings and frequently used SQL to pandas DataFrame helper function `get_query_df`:
