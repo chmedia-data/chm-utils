@@ -16,12 +16,17 @@ A config declares its variations at the root and its parameters below.
     configs = get_portal_variant_configs(feed_config, portals=['p1'])
     # {'p1:variant_a': {...}, 'p1:default': {...}}
 
+Schemas can reference values held in another config file instead of listing
+them, e.g. `enum: $configs/org/portals.yml:portals.id`; `resolve_references`
+replaces those, reading files through a loader the caller supplies.
+
 Overrides are read from two places. A variation randomising across several
 variants declares them per entry of `variants`; a variation assigning a single
 variant declares them on itself, keyed by its `variant_id`. Variation-level
 overrides run first, so the variant level wins where both target a path.
 """
 
+import ast
 import fnmatch
 import json
 import re
@@ -237,3 +242,78 @@ def get_portal_variant_configs(config, portals):
         resolved = resolve_variables(config, portal, variant_id)
         response[i] = resolve_overrides(resolved, variant_id)
     return response
+
+
+# path characters are restricted so regex `pattern` values, where `$` is the
+# end anchor, never read as a reference
+REFERENCE_PATTERN = re.compile(r"\$([\w./-]+):([\w.]+)")
+
+
+def get_dict_path(obj, path):
+    """Follow a dot path, mapping over lists along the way.
+
+        get_dict_path({'portals': [{'id': 'a'}, {'id': 'b'}]}, 'portals.id')
+        -> ['a', 'b']
+    """
+    value = obj
+    for key in path.split('.'):
+        if isinstance(value, list):
+            value = [i.get(key) for i in value]
+        else:
+            value = value.get(key)
+    return value
+
+
+def is_reference(value):
+    """Whether a schema value is a reference expression: `+`-separated terms,
+    at least one of which is a `$<file path>:<dot path>` reference."""
+    return isinstance(value, str) and any(
+        REFERENCE_PATTERN.fullmatch(term.strip()) for term in value.split('+')
+    )
+
+
+def resolve_reference(expression, load):
+    """Resolve a reference expression into a value.
+
+    Terms are joined with `+`; each is either a reference, read from the file
+    `load(path)` returns, or a Python literal:
+
+        '$configs/org/portals.yml:portals.id + ["chm"]'  -> ['aaz', ..., 'chm']
+    """
+    resolved = None
+    for term in (t.strip() for t in expression.split('+')):
+        match = REFERENCE_PATTERN.fullmatch(term)
+        value = get_dict_path(load(match.group(1)), match.group(2)) if match else ast.literal_eval(term)
+        resolved = value if resolved is None else resolved + value
+    return resolved
+
+
+def resolve_references(schema, load):
+    """Replace every reference expression in a schema with its value.
+
+    `load(path)` returns the parsed config file at a path relative to the
+    chm-configs root, e.g. a local YAML read or a GitHub fetch. Each file is
+    loaded once per call. The schema is resolved in place and returned.
+    """
+    loaded = {}
+
+    def cached_load(path):
+        if path not in loaded:
+            loaded[path] = load(path)
+        return loaded[path]
+
+    def resolve(obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                obj[k] = resolve(v)
+        elif isinstance(obj, list):
+            for idx, v in enumerate(obj):
+                obj[idx] = resolve(v)
+        elif is_reference(obj):
+            try:
+                return resolve_reference(obj, cached_load)
+            except Exception as e:
+                raise ValueError(f"Schema reference error: {obj} ({e})") from e
+        return obj
+
+    return resolve(schema)
