@@ -131,6 +131,45 @@ def test_exhausted_segment_drops_later_variations():
     assert 'p3:a_3' not in variants
 
 
+def test_cohort_gated_variation_leaves_the_default_alone():
+    """A `nonsubs` experiment gates on its label, so the default keeps its pool."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "nonsubs", "portals": ["p2"],
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "default", "cohort": "all", "variant_id": "default"},
+    ]}
+
+    variants = get_portal_variant_ids(config, ['p1', 'p2'])
+
+    assert sorted(variants) == ['p1:default', 'p2:a_1', 'p2:a_2', 'p2:default']
+
+
+def test_labelled_and_unlabelled_subscriber_variations_share_a_pool():
+    """`subs` maps onto its condition, so the migration does not split the pool."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "subs", "portals": ["p2"],
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "segmentation", "conditions": ["User.IsSubscriber"], "variant_id": "subs"},
+        {"type": "default", "cohort": "all", "variant_id": "default"},
+    ]}
+
+    variants = get_portal_variant_ids(config, ['p1', 'p2'])
+
+    assert 'p1:subs' in variants
+    assert 'p2:subs' not in variants
+
+
+def test_all_cohort_shares_the_default_pool():
+    """`all` gates nothing, so a full experiment on it still exhausts the default."""
+    config = {'variations': [
+        {"type": "experiment", "id": "exp-1", "cohort": "all",
+         "variants": [{"id": "a_1", "percent": 50}, {"id": "a_2", "percent": 50}]},
+        {"type": "default", "cohort": "all", "variant_id": "default"},
+    ]}
+
+    assert sorted(get_portal_variant_ids(config, ['p1'])) == ['p1:a_1', 'p1:a_2']
+
+
 def test_segment_allocation_is_order_dependent():
     """A 100% variation first exhausts the segment for every portal it covers."""
     config = {'variations': [
