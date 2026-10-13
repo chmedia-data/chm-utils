@@ -99,14 +99,36 @@ def resolve_variables(obj, portal, variant_id="default", root=None):
         return obj
 
 
+# A variation's segment is the audience it gates, because two variations gating
+# different audiences never take each other's share. `subs` maps onto the
+# condition it replaces, so a labelled and an unlabelled subscriber variation
+# stay in one segment through the migration off conditions, and `all` maps onto
+# the empty one the defaults live in. `nonsubs` has no condition to be written
+# as, and gating on the label alone is the only way to express it.
+COHORT_SEGMENTS = {
+    'all': '',
+    'subs': 'User.IsSubscriber',
+    'nonsubs': 'nonsubs',
+}
+
+
+def variation_segment(variation):
+    """The allocation pool a variation draws its `percent` from."""
+    cohort = variation.get('cohort')
+    if cohort in COHORT_SEGMENTS:
+        return COHORT_SEGMENTS[cohort]
+    return '|'.join(sorted(variation.get('conditions', [])))
+
+
 def get_portal_variant_ids(config, portals):
     """List the `portal:variant_id` combinations a config resolves to.
 
-    Variations are grouped into segments by their `conditions`; within a
-    segment, experiment variations consume their `percent` and any other type
-    exhausts the segment (it assigns a single variant unconditionally).
-    Variations naming `portals` only apply to those portals; a portal left
-    without any variant falls back to `default`.
+    Variations are grouped into segments by the audience they gate, their
+    `cohort` label or, while a variation carries no label, their `conditions`;
+    within a segment, experiment variations consume their `percent` and any
+    other type exhausts the segment (it assigns a single variant
+    unconditionally). Variations naming `portals` only apply to those portals;
+    a portal left without any variant falls back to `default`.
 
     Supports both the current schema (`type`, plus `variants` for experiments)
     and the legacy one (`variation_type` with a `variant_id` per object).
@@ -127,7 +149,7 @@ def get_portal_variant_ids(config, portals):
                     'variation_type': v['type'],
                     'variant_id': variant_config['id'],
                     'percent': variant_config['percent'],
-                    'segment': '|'.join(sorted(v.get('conditions', [])))
+                    'segment': variation_segment(v)
                 }
                 if 'portals' in v:
                     flattened_var['portals'] = v['portals']
@@ -136,7 +158,7 @@ def get_portal_variant_ids(config, portals):
             flattened_var = {
                 'variation_type': v.get('type', v.get('variation_type')),
                 'variant_id': v['variant_id'],
-                'segment': '|'.join(sorted(v.get('conditions', [])))
+                'segment': variation_segment(v)
             }
             if 'percent' in v:
                 flattened_var['percent'] = v['percent']
