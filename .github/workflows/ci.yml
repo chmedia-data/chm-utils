@@ -28,4 +28,4 @@ jobs:
       - name: Run tests
         run: |
           docker run --rm -e STAGE=test -e AWS_DEFAULT_REGION=eu-west-1 -e SKIP_PW_MFA_CREDENTIAL_TEST=true --entrypoint /bin/bash chm_utils \
-            -c "pip install -q -e . && python -m pytest -v --deselect tests/test_sls.py::test_set_env"
+            -c "pytest -v --deselect tests/test_sls.py::test_set_env"
