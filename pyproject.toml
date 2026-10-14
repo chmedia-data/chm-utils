@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "chm_utils"
 version = "0.5.0"
@@ -24,6 +28,11 @@ redis = [
 auth = [
   "dash>=2.7.0",
   "flask",
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
 ]
 
 [project.scripts]
