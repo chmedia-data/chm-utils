@@ -4,9 +4,9 @@ WORKDIR /home
 ENV UV_LINK_MODE=copy PATH="/home/.venv/bin:$PATH"
 
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --all-extras --no-install-project
+RUN uv sync --locked --all-extras --no-install-project
 
 COPY readme.md .
 COPY chm_utils chm_utils
 COPY tests tests
-RUN uv sync --frozen --all-extras
+RUN uv sync --locked --all-extras
