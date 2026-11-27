@@ -125,7 +125,7 @@ def send_response():
 
 The service must reach the issuer over HTTPS to fetch the keys (cached for an hour). If it cannot, requests fail with a 500 instead of looping through the login.
 
-`auth.current_user()` returns the verified claims (`email`, `name`, `sub`, ...) or `None`. Read the user from there, not from the Flask `session`. A service that keeps its own state in the Flask session needs its own `SECRET_KEY` and session cookie name.
+`auth.current_user()` returns the verified claims (`email`, `name`, `tid`, `oid`, ...) or `None`. Key stored user data on `oid`, the Entra object id: unlike the email, it is never reassigned. Read the user from there, not from the Flask `session`. A service that keeps its own state in the Flask session needs its own `SECRET_KEY` and session cookie name.
 ```python
 from flask import Flask
 from chm_utils.ext import auth
