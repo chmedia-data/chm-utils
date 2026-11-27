@@ -22,7 +22,8 @@ _jwks_clients = {}
 def _jwks_client():
     url = f"{_issuer()}/.well-known/jwks.json"
     if url not in _jwks_clients:
-        _jwks_clients[url] = jwt.PyJWKClient(url, cache_keys=True, lifespan=3600)
+        # cache_keys would pin each key for the process lifetime, past its removal from the JWKS.
+        _jwks_clients[url] = jwt.PyJWKClient(url, cache_keys=False, lifespan=3600)
     return _jwks_clients[url]
 
 
@@ -127,10 +128,6 @@ def is_authorised(methods=['login','basic']):
     if is_deactivated or is_debug:
         return True
 
-    evals = []
-    if 'login' in methods:
-        evals.append(is_logged_in())
-    if 'basic' in methods:
-        evals.append(is_authorised_basic())
-
-    return any(evals)
+    if 'basic' in methods and is_authorised_basic():
+        return True
+    return 'login' in methods and is_logged_in()

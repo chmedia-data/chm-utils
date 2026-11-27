@@ -1,4 +1,4 @@
-import os, time, pytest
+import os, json, time, pytest
 from base64 import b64encode
 from urllib.parse import quote
 
@@ -25,9 +25,14 @@ os.environ['AUTH_ISSUER'] = ISSUER
 
 KEY = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 OTHER_KEY = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+JWKS_SIGNING_KEY = auth._signing_key
 
 
-def session_token(key=KEY, algorithm="RS256", **overrides):
+def jwk(key, kid):
+    return {**json.loads(jwt.algorithms.RSAAlgorithm.to_jwk(key.public_key())), "kid": kid, "use": "sig", "alg": "RS256"}
+
+
+def session_token(key=KEY, algorithm="RS256", kid=None, **overrides):
     now = int(time.time())
     claims = {
         "iss": ISSUER,
@@ -40,7 +45,7 @@ def session_token(key=KEY, algorithm="RS256", **overrides):
         **overrides,
     }
     claims = {k: v for k, v in claims.items() if v is not None}
-    return jwt.encode(claims, key, algorithm=algorithm)
+    return jwt.encode(claims, key, algorithm=algorithm, headers={"kid": kid} if kid else None)
 
 
 @pytest.fixture(autouse=True)
@@ -147,6 +152,37 @@ def test_auth_unreachable_jwks_fails_instead_of_redirecting(flask_login_required
     response = with_token(flask_login_required, session_token()).get(TEST_FLASK_PATH)
 
     assert response.status_code == 500
+
+
+def test_auth_key_removed_from_jwks_stops_verifying(flask_login_required, monkeypatch):
+    monkeypatch.setattr(auth, "_signing_key", JWKS_SIGNING_KEY)
+    monkeypatch.setattr(auth, "_jwks_clients", {})
+    published = {"keys": [jwk(KEY, "k1")]}
+    monkeypatch.setattr(auth._jwks_client(), "fetch_data", lambda: published)
+    token = session_token(kid="k1")
+
+    assert with_token(flask_login_required, token).get(TEST_FLASK_PATH).status_code == 200
+
+    published["keys"] = [jwk(OTHER_KEY, "k2")]
+    auth._jwks_client().jwk_set_cache.put(None)  # the JWKS lifespan has passed
+    assert with_token(flask_login_required, token).get(TEST_FLASK_PATH).status_code == 302
+
+
+def test_auth_valid_basic_survives_jwks_outage(flask_server, monkeypatch):
+    def unreachable(token):
+        raise jwt.PyJWKClientConnectionError("down")
+    monkeypatch.setattr(auth, "_signing_key", unreachable)
+
+    @flask_server.route(TEST_FLASK_PATH)
+    @auth.login_or_basic_required
+    def send_status():
+        return ('OK!',200)
+
+    client = with_token(flask_server.test_client(), session_token())
+    basic = b64encode(f"{TEST_USER}:{TEST_PWD}".encode()).decode()
+    response = client.get(TEST_FLASK_PATH, headers={'Authorization': f'Basic {basic}'})
+
+    assert response.status_code == 200
 
 
 def test_auth_jwks_url_follows_issuer():
