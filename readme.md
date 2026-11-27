@@ -115,7 +115,17 @@ def send_response():
 ```
 
 #### Cookie
-To be able to use cookie based authentication with centralised auth routes, one has to use the same `SESSION_COOKIE_NAME` and `SESSION_SECRET_KEY` across services (see [chm-auth](https://github.com/chmedia-data/chm-auth)). When those environment variables are set, flask can authenticate a user by it's cookie and redirect towards `AUTH_REDIRECT_URI` when a user isn't yet logged in.
+[chm-auth](https://github.com/chmedia-data/chm-auth) sets a session token cookie (`chmdtoken`) after the Microsoft login: an RS256 JWT with audience `chm-session`. `login_required` verifies it against the issuer's public keys at `{AUTH_ISSUER}/.well-known/jwks.json`, so a service needs no shared secret to authenticate users and cannot mint sessions itself. Users without a valid token are redirected to `AUTH_REDIRECT_URI?next=<current url>`.
+
+| Variable | Default |
+|---|---|
+| `AUTH_REDIRECT_URI` | required, e.g. `https://auth.data.chmedia.ch/login` |
+| `AUTH_ISSUER` | `https://auth.data.chmedia.ch` |
+| `AUTH_TOKEN_COOKIE_NAME` | `chmdtoken` |
+
+The service must reach the issuer over HTTPS to fetch the keys (cached for an hour). If it cannot, requests fail with a 500 instead of looping through the login.
+
+`auth.current_user()` returns the verified claims (`email`, `name`, `sub`, ...) or `None`. Read the user from there, not from the Flask `session`. A service that keeps its own state in the Flask session needs its own `SECRET_KEY` and session cookie name.
 ```python
 from flask import Flask
 from chm_utils.ext import auth
